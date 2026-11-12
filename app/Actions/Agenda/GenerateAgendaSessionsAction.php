@@ -6,6 +6,7 @@ use App\Enums\SessionStatus;
 use App\Models\Agenda;
 use App\Models\AgendaSession;
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 
 class GenerateAgendaSessionsAction
@@ -40,23 +41,27 @@ class GenerateAgendaSessionsAction
 
             [$startsAt, $endsAt, $windowOpensAt, $windowClosesAt] = $this->buildTimestamps($agenda, $date);
 
-            $session = AgendaSession::firstOrCreate(
-                [
-                    'agenda_id' => $agenda->id,
-                    'session_date' => $date->toDateString(),
-                ],
-                [
-                    'starts_at' => $startsAt,
-                    'ends_at' => $endsAt,
-                    'window_opens_at' => $windowOpensAt,
-                    'window_closes_at' => $windowClosesAt,
-                    'status' => SessionStatus::Scheduled,
-                ]
-            );
+            // Kolom session_date di-cast ke date sehingga tersimpan sebagai datetime;
+            // pencarian harus lewat whereDate agar firstOrCreate tetap idempoten.
+            $exists = AgendaSession::where('agenda_id', $agenda->id)
+                ->whereDate('session_date', $date->toDateString())
+                ->exists();
 
-            if ($session->wasRecentlyCreated) {
-                $createdCount++;
+            if ($exists) {
+                continue;
             }
+
+            AgendaSession::create([
+                'agenda_id' => $agenda->id,
+                'session_date' => $date->toDateString(),
+                'starts_at' => $startsAt,
+                'ends_at' => $endsAt,
+                'window_opens_at' => $windowOpensAt,
+                'window_closes_at' => $windowClosesAt,
+                'status' => SessionStatus::Scheduled,
+            ]);
+
+            $createdCount++;
         }
 
         return $createdCount;
@@ -101,7 +106,7 @@ class GenerateAgendaSessionsAction
     /**
      * @return array{0: Carbon, 1: Carbon, 2: Carbon, 3: Carbon}
      */
-    private function buildTimestamps(Agenda $agenda, Carbon $date): array
+    private function buildTimestamps(Agenda $agenda, CarbonInterface $date): array
     {
         $dateString = $date->toDateString();
         $startsAt = Carbon::parse("{$dateString} {$agenda->start_time}");
