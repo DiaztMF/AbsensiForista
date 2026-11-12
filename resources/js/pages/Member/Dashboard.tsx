@@ -5,6 +5,7 @@ import AgendaLocationMap from "@/components/Member/AgendaLocationMap";
 import CheckInTrigger from "@/components/Member/CheckInTrigger";
 import DigitalTimeBlocks from "@/components/Member/DigitalTimeBlocks";
 import FeedbackModal from "@/components/Member/FeedbackModal";
+import NotificationDrawer from "@/components/Member/NotificationDrawer";
 
 interface ActiveSession {
     id: number;
@@ -53,6 +54,7 @@ interface DashboardProps {
     stats: MemberStats;
     history: HistoryItem[];
     unreadNotificationsCount: number;
+    vapidPublicKey: string | null;
 }
 
 interface MemberFlash {
@@ -74,6 +76,7 @@ export default function MemberDashboard({
     stats,
     history,
     unreadNotificationsCount,
+    vapidPublicKey,
 }: DashboardProps) {
     const page = usePage();
     const user = page.props.auth.user;
@@ -83,6 +86,8 @@ export default function MemberDashboard({
     const [attendanceSubTab, setAttendanceSubTab] = useState<"today" | "list">("today");
     const [selectedMonth, setSelectedMonth] = useState("all");
     const [isLocating, setIsLocating] = useState(false);
+    const [notifOpen, setNotifOpen] = useState(false);
+    const [unreadCount, setUnreadCount] = useState(unreadNotificationsCount);
 
     const [welcomeOpen, setWelcomeOpen] = useState(Boolean(flash.show_welcome_popup));
     const [feedbackModal, setFeedbackModal] = useState<{
@@ -240,16 +245,12 @@ export default function MemberDashboard({
                                     )}
                                     <button
                                         type="button"
-                                        onClick={() =>
-                                            router.post("/notifications/read-all", undefined, {
-                                                preserveScroll: true,
-                                            })
-                                        }
+                                        onClick={() => setNotifOpen(true)}
                                         className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 hover:bg-white/25"
-                                        aria-label="Tandai semua notifikasi terbaca"
+                                        aria-label="Buka notifikasi"
                                     >
                                         <Bell className="h-5 w-5" />
-                                        {unreadNotificationsCount > 0 && (
+                                        {unreadCount > 0 && (
                                             <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-[#EF4444] ring-2 ring-[#5C3806]" />
                                         )}
                                     </button>
@@ -620,6 +621,13 @@ export default function MemberDashboard({
                     </button>
                 </nav>
             </div>
+
+            <NotificationDrawer
+                open={notifOpen}
+                vapidPublicKey={vapidPublicKey}
+                onClose={() => setNotifOpen(false)}
+                onClearedUnread={() => setUnreadCount(0)}
+            />
 
             <FeedbackModal
                 open={welcomeOpen}
