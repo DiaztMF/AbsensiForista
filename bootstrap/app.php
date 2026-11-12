@@ -20,6 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Berjalan di belakang proxy Coolify/Traefik: perlakukan sebagai HTTPS
+        // agar cookie sesi ditandai secure dan URL absolut memakai https.
+        $middleware->trustProxies(at: '*');
+
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->web(append: [
