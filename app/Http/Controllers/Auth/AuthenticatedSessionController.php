@@ -14,23 +14,37 @@ class AuthenticatedSessionController extends Controller
 {
     public function create(): Response
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('auth/login');
     }
 
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-        $request->session()->regenerate();
 
         $user = $request->user();
+
+        // Akun ber-2FA harus melewati tantangan kode sebelum sesi diaktifkan penuh
+        if ($user->two_factor_secret && $user->two_factor_confirmed_at) {
+            $request->session()->put([
+                'login.id' => $user->id,
+                'login.remember' => $request->boolean('remember'),
+            ]);
+
+            Auth::guard('web')->logout();
+
+            return redirect()->route('two-factor.login');
+        }
+
+        $request->session()->regenerate();
 
         // F1 & F2: Admin diarahkan ke /admin, Member ke /dashboard dengan pop-up selamat datang
         if ($user->isAdmin()) {
             return redirect()->intended(route('admin.overview'));
         }
 
-        return redirect()->intended(route('member.dashboard'))
-            ->with('show_welcome_popup', true);
+        Inertia::flash('show_welcome_popup', true);
+
+        return redirect()->intended(route('member.dashboard'));
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -39,6 +53,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }

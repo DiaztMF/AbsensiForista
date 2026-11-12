@@ -15,34 +15,29 @@ return new class extends Migration
             $table->timestampsTz();
         });
 
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
+        // Tabel users dibuat oleh migrasi 0001; di sini hanya ditambah kolom domain FORISTA.
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('email')->nullable()->change();
             $table->foreignId('division_id')
+                ->nullable()
+                ->after('id')
                 ->constrained('divisions')
                 ->restrictOnDelete(); // Blokir penghapusan divisi jika masih ada anggota
-            $table->string('name');
-            $table->string('username')->unique();
-            $table->string('password');
+            $table->string('username')->nullable()->unique()->after('name');
             $table->string('role')->default(UserRole::Member->value)->index();
             $table->boolean('is_active')->default(true)->index();
-            $table->rememberToken();
-            $table->timestampsTz();
-        });
-
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('sessions');
-        Schema::dropIfExists('users');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('division_id');
+            $table->dropUnique(['username']);
+            $table->dropColumn(['username', 'role', 'is_active']);
+            $table->string('email')->nullable(false)->change();
+        });
+
         Schema::dropIfExists('divisions');
     }
 };

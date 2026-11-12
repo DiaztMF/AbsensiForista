@@ -5,6 +5,7 @@ namespace App\Http\Requests\Auth;
 use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
@@ -67,9 +68,10 @@ class LoginRequest extends FormRequest
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
-        throw ValidationException::withMessages([
-            'username' => "Terlalu banyak percobaan masuk. Silakan coba lagi dalam {$seconds} detik.",
-        ]);
+        throw new ThrottleRequestsException(
+            "Terlalu banyak percobaan masuk. Silakan coba lagi dalam {$seconds} detik.",
+            headers: ['Retry-After' => $seconds],
+        );
     }
 
     public function throttleKey(): string

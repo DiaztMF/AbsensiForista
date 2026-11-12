@@ -35,6 +35,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
     'division_id',
     'name',
     'username',
+    'email',
     'password',
     'role',
     'is_active',

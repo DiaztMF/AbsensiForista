@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => auth()->check()
     ? redirect()->route(auth()->user()->isAdmin() ? 'admin.overview' : 'member.dashboard')
-    : redirect()->route('login'));
+    : redirect()->route('login'))->name('home');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');

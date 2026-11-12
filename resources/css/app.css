@@ -1,6 +1,8 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@import 'tw-animate-css';
+@import "leaflet/dist/leaflet.css";
+
+@import "tw-animate-css";
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -9,9 +11,8 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -139,5 +140,13 @@
 
     body {
         @apply bg-background text-foreground;
+    }
+
+    /* Leaflet memakai z-index 400-1000; kurung dalam stacking context sendiri
+       agar tidak menimpa bottom nav / modal. */
+    .leaflet-container {
+        position: relative;
+        z-index: 0;
+        isolation: isolate;
     }
 }

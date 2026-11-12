@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Member\CheckInRequest;
 use App\Models\AgendaSession;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
 
 class CheckInController extends Controller
 {
@@ -23,12 +24,14 @@ class CheckInController extends Controller
             accuracyM: (float) $request->validated('accuracy_m'),
         );
 
-        return back()->with('checkin_result', [
+        Inertia::flash('checkin_result', [
             'success' => $result->success,
             'code' => $result->code,
             'message' => $result->message,
             'distance_m' => $result->distanceM,
             'remaining_attempts' => $result->remainingAttempts,
         ]);
+
+        return back();
     }
 }
