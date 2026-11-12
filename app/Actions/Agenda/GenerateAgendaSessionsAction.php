@@ -78,6 +78,7 @@ class GenerateAgendaSessionsAction
         foreach ($futureSessions as $session) {
             if ($agenda->ends_on && $session->session_date->gt($agenda->ends_on)) {
                 $session->delete();
+
                 continue;
             }
 

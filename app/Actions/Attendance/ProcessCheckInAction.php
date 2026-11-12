@@ -2,8 +2,8 @@
 
 namespace App\Actions\Attendance;
 
-use App\Enums\AttendanceSource;
 use App\Enums\AttemptResult;
+use App\Enums\AttendanceSource;
 use App\Enums\SessionStatus;
 use App\Models\AgendaSession;
 use App\Models\AppSetting;
@@ -37,14 +37,14 @@ class ProcessCheckInAction
         if ($now->lt($session->window_opens_at)) {
             return CheckInResult::rejected(
                 'window_not_open',
-                'Presensi belum dibuka. Silakan tunggu hingga ' . $session->window_opens_at->format('H:i') . ' WIB.'
+                'Presensi belum dibuka. Silakan tunggu hingga '.$session->window_opens_at->format('H:i').' WIB.'
             );
         }
 
         if ($now->gt($session->window_closes_at)) {
             return CheckInResult::rejected(
                 'window_closed',
-                'Waktu presensi telah ditutup pada ' . $session->window_closes_at->format('H:i') . ' WIB.'
+                'Waktu presensi telah ditutup pada '.$session->window_closes_at->format('H:i').' WIB.'
             );
         }
 
