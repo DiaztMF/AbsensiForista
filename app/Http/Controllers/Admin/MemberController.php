@@ -62,14 +62,18 @@ class MemberController extends Controller
             'is_active' => true,
         ]);
 
-        return back()->with('success', 'Akun anggota berhasil dibuat.');
+        Inertia::flash('success', 'Akun anggota berhasil dibuat.');
+
+        return back();
     }
 
     public function update(UpdateMemberRequest $request, User $member): RedirectResponse
     {
         $member->update($request->validated());
 
-        return back()->with('success', 'Data anggota berhasil diperbarui.');
+        Inertia::flash('success', 'Data anggota berhasil diperbarui.');
+
+        return back();
     }
 
     public function toggleActive(Request $request, User $member): RedirectResponse
@@ -82,7 +86,9 @@ class MemberController extends Controller
 
         $statusLabel = $member->is_active ? 'diaktifkan kembali' : 'dinonaktifkan';
 
-        return back()->with('success', "Akun {$member->name} berhasil {$statusLabel}.");
+        Inertia::flash('success', "Akun {$member->name} berhasil {$statusLabel}.");
+
+        return back();
     }
 
     public function resetPassword(
@@ -102,6 +108,8 @@ class MemberController extends Controller
             reason: $validated['reason'] ?? null
         );
 
-        return back()->with('success', "Kata sandi {$member->name} berhasil direset.");
+        Inertia::flash('success', "Kata sandi {$member->name} berhasil direset.");
+
+        return back();
     }
 }

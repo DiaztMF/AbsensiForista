@@ -81,6 +81,8 @@ class RecapController extends Controller
             return back()->withErrors(['manual' => $e->getMessage()]);
         }
 
-        return back()->with('success', "Presensi manual untuk {$member->name} berhasil dicatat.");
+        Inertia::flash('success', "Presensi manual untuk {$member->name} berhasil dicatat.");
+
+        return back();
     }
 }

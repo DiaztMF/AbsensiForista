@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Division;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
@@ -19,7 +20,9 @@ class DivisionController extends Controller
 
         Division::create($validated);
 
-        return back()->with('success', 'Divisi baru berhasil ditambahkan.');
+        Inertia::flash('success', 'Divisi baru berhasil ditambahkan.');
+
+        return back();
     }
 
     public function update(Request $request, Division $division): RedirectResponse
@@ -30,7 +33,9 @@ class DivisionController extends Controller
 
         $division->update($validated);
 
-        return back()->with('success', 'Nama divisi berhasil diperbarui.');
+        Inertia::flash('success', 'Nama divisi berhasil diperbarui.');
+
+        return back();
     }
 
     public function destroy(Division $division): RedirectResponse
@@ -39,6 +44,8 @@ class DivisionController extends Controller
 
         $division->delete();
 
-        return back()->with('success', 'Divisi berhasil dihapus.');
+        Inertia::flash('success', 'Divisi berhasil dihapus.');
+
+        return back();
     }
 }

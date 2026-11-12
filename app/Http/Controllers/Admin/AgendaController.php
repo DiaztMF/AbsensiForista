@@ -39,7 +39,9 @@ class AgendaController extends Controller
 
         $generator->execute($agenda, weeksAhead: 4);
 
-        return back()->with('success', 'Agenda mingguan dibuat dan sesi 4 minggu ke depan telah dijadwalkan.');
+        Inertia::flash('success', 'Agenda mingguan dibuat dan sesi 4 minggu ke depan telah dijadwalkan.');
+
+        return back();
     }
 
     public function update(
@@ -55,6 +57,8 @@ class AgendaController extends Controller
         // F3: Perubahan hanya memengaruhi sesi di masa depan
         $generator->syncFutureSessions($agenda, weeksAhead: 4);
 
-        return back()->with('success', 'Agenda berhasil diperbarui untuk sesi mendatang.');
+        Inertia::flash('success', 'Agenda berhasil diperbarui untuk sesi mendatang.');
+
+        return back();
     }
 }

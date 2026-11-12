@@ -22,6 +22,8 @@ class SettingController extends Controller
     {
         AppSetting::current()->update($request->validated());
 
-        return back()->with('success', 'Pengaturan global berhasil disimpan dan berlaku untuk sesi mendatang.');
+        Inertia::flash('success', 'Pengaturan global berhasil disimpan dan berlaku untuk sesi mendatang.');
+
+        return back();
     }
 }

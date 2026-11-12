@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Notifications\AgendaReminderNotification;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
 
@@ -30,7 +31,9 @@ class SessionController extends Controller
             'reminded_before_close_at' => $newClosesAt->isFuture() ? null : $session->reminded_before_close_at,
         ]);
 
-        return back()->with('success', 'Waktu check-in sesi berhasil digeser dan pengingat diperbarui.');
+        Inertia::flash('success', 'Waktu check-in sesi berhasil digeser dan pengingat diperbarui.');
+
+        return back();
     }
 
     public function cancel(AgendaSession $session): RedirectResponse
@@ -41,7 +44,9 @@ class SessionController extends Controller
             'status' => SessionStatus::Cancelled,
         ]);
 
-        return back()->with('success', 'Sesi pertemuan berhasil dibatalkan dan dikeluarkan dari perhitungan persentase.');
+        Inertia::flash('success', 'Sesi pertemuan berhasil dibatalkan dan dikeluarkan dari perhitungan persentase.');
+
+        return back();
     }
 
     public function remindPending(AgendaSession $session): RedirectResponse
@@ -67,6 +72,8 @@ class SessionController extends Controller
             );
         }
 
-        return back()->with('success', "Pengingat dikirim ke {$pendingMembers->count()} anggota yang belum hadir.");
+        Inertia::flash('success', "Pengingat dikirim ke {$pendingMembers->count()} anggota yang belum hadir.");
+
+        return back();
     }
 }

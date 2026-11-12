@@ -20,6 +20,8 @@ void createInertiaApp({
                 return null;
             case name.startsWith("Member/"):
                 return null;
+            case name.startsWith("Admin/"):
+                return null;
             case name.startsWith("auth/"):
                 return AuthLayout;
             case name.startsWith("settings/"):
