@@ -9,7 +9,7 @@ services:
             CONTAINER_ROLE: web
             APP_ENV: production
             APP_DEBUG: 'false'
-            APP_URL: ${APP_URL:-http://localhost:8080}
+            APP_URL: ${APP_URL:-https://forista.klikhadir.my.id}
             APP_KEY: ${APP_KEY}
             DB_CONNECTION: pgsql
             DB_HOST: db
@@ -21,6 +21,7 @@ services:
             CACHE_STORE: database
             QUEUE_CONNECTION: database
             SESSION_SECURE_COOKIE: 'true'
+            SESSION_DOMAIN: ${SESSION_DOMAIN:-forista.klikhadir.my.id}
             VAPID_SUBJECT: ${VAPID_SUBJECT}
             VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
             VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
@@ -43,7 +44,7 @@ services:
             CONTAINER_ROLE: worker
             APP_ENV: production
             APP_DEBUG: 'false'
-            APP_URL: ${APP_URL:-http://localhost:8080}
+            APP_URL: ${APP_URL:-https://forista.klikhadir.my.id}
             APP_KEY: ${APP_KEY}
             DB_CONNECTION: pgsql
             DB_HOST: db
@@ -52,6 +53,7 @@ services:
             DB_USERNAME: ${DB_USERNAME:-forista}
             DB_PASSWORD: ${DB_PASSWORD}
             SESSION_DRIVER: database
+            SESSION_DOMAIN: ${SESSION_DOMAIN:-forista.klikhadir.my.id}
             CACHE_STORE: database
             QUEUE_CONNECTION: database
             VAPID_SUBJECT: ${VAPID_SUBJECT}
@@ -70,7 +72,7 @@ services:
             CONTAINER_ROLE: scheduler
             APP_ENV: production
             APP_DEBUG: 'false'
-            APP_URL: ${APP_URL:-http://localhost:8080}
+            APP_URL: ${APP_URL:-https://forista.klikhadir.my.id}
             APP_KEY: ${APP_KEY}
             DB_CONNECTION: pgsql
             DB_HOST: db
@@ -79,6 +81,7 @@ services:
             DB_USERNAME: ${DB_USERNAME:-forista}
             DB_PASSWORD: ${DB_PASSWORD}
             SESSION_DRIVER: database
+            SESSION_DOMAIN: ${SESSION_DOMAIN:-forista.klikhadir.my.id}
             CACHE_STORE: database
             QUEUE_CONNECTION: database
             VAPID_SUBJECT: ${VAPID_SUBJECT}

@@ -161,16 +161,12 @@ return [
     */
 
     'features' => [
-        Features::registration(),
-        Features::resetPasswords(),
+        // F1: akun dibuat Admin dan reset sandi dilakukan Admin (tanpa email)
         Features::emailVerification(),
         Features::twoFactorAuthentication([
             'confirm' => true,
             'confirmPassword' => true,
             // 'window' => 0
-        ]),
-        Features::passkeys([
-            // 'confirmPassword' => true,
         ]),
     ],
 

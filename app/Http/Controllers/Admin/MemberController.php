@@ -24,8 +24,9 @@ class MemberController extends Controller
         $members = User::with('division')
             ->when($search !== '', function ($q) use ($search) {
                 $q->where(function ($sub) use ($search) {
-                    $sub->where('name', 'ilike', "%{$search}%")
-                        ->orWhere('username', 'ilike', "%{$search}%");
+                    // whereLike portabel lintas driver (SQLite & Postgres)
+                    $sub->whereLike('name', "%{$search}%", caseSensitive: false)
+                        ->orWhereLike('username', "%{$search}%", caseSensitive: false);
                 });
             })
             ->when($divisionId, fn ($q) => $q->where('division_id', $divisionId))

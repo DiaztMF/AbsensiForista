@@ -56,6 +56,7 @@ RUN composer dump-autoload --optimize --no-dev \
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/php.ini /usr/local/etc/php/conf.d/zz-app.ini
+COPY docker/php-fpm.conf /usr/local/etc/php-fpm.d/zz-pool.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint
 RUN chmod +x /usr/local/bin/entrypoint
