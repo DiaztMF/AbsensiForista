@@ -1,6 +1,6 @@
 services:
   web:
-    image: ghcr.io/DiaztMF/absensi-forista:latest
+    image: ghcr.io/diaztmf/absensi-forista:latest
     restart: unless-stopped
     environment:
       CONTAINER_ROLE: web
@@ -32,7 +32,7 @@ services:
       start_period: 40s
 
   worker:
-    image: ghcr.io/DiaztMF/absensi-forista:latest
+    image: ghcr.io/diaztmf/absensi-forista:latest
     restart: unless-stopped
     environment:
       CONTAINER_ROLE: worker
@@ -55,7 +55,7 @@ services:
       VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
 
   scheduler:
-    image: ghcr.io/DiaztMF/absensi-forista:latest
+    image: ghcr.io/diaztmf/absensi-forista:latest
     restart: unless-stopped
     environment:
       CONTAINER_ROLE: scheduler
