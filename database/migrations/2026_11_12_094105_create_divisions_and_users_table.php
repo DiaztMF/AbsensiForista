@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('divisions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('color')->default('#6B7280');
             $table->timestampsTz();
         });
 

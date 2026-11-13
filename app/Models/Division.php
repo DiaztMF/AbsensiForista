@@ -11,8 +11,7 @@ class Division extends Model
 {
     /** @use HasFactory<DivisionFactory> */
     use HasFactory;
-
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'color'];
 
     public function users(): HasMany
     {
