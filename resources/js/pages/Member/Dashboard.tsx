@@ -1,6 +1,11 @@
 import { Head, Link, router, usePage } from "@inertiajs/react";
 import { Bell, Calendar, Clock, Hand, LayoutGrid, LogOut, MapPin, ShieldCheck } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import type { Auth } from "@/types/auth";
+
+type PageProps = {
+    auth: Auth;
+};
 import AgendaLocationMap from "@/components/Member/AgendaLocationMap";
 import CheckInTrigger from "@/components/Member/CheckInTrigger";
 import DigitalTimeBlocks from "@/components/Member/DigitalTimeBlocks";
@@ -78,7 +83,7 @@ export default function MemberDashboard({
     unreadNotificationsCount,
     vapidPublicKey,
 }: DashboardProps) {
-    const page = usePage();
+    const page = usePage<PageProps>();
     const user = page.props.auth.user;
     const flash = page.flash as MemberFlash;
 

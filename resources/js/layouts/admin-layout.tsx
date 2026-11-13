@@ -11,6 +11,13 @@ import {
     Users,
 } from "lucide-react";
 import type { PropsWithChildren } from "react";
+import type { Auth } from "@/types/auth";
+
+type PageProps = {
+    auth: Auth;
+    errors: Record<string, string>;
+    flash: { success?: string; toast?: { type: string; message: string } };
+};
 
 interface AdminLayoutProps extends PropsWithChildren {
     title: string;
@@ -26,7 +33,7 @@ const navItems = [
 ];
 
 export default function AdminLayout({ title, children }: AdminLayoutProps) {
-    const { url, props, flash } = usePage();
+    const { url, props, flash } = usePage<PageProps>();
     const user = props.auth.user;
     const successMessage = flash?.success;
     const successText = typeof successMessage === "string" ? successMessage : null;

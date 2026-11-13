@@ -3,13 +3,17 @@ import type { ReactNode } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import type { AppVariant } from '@/types';
 
+type PageProps = {
+    sidebarOpen: boolean;
+};
+
 type Props = {
     children: ReactNode;
     variant?: AppVariant;
 };
 
 export function AppShell({ children, variant = 'sidebar' }: Props) {
-    const isOpen = usePage().props.sidebarOpen;
+    const isOpen = usePage<PageProps>().props.sidebarOpen;
 
     if (variant === 'header') {
         return (
