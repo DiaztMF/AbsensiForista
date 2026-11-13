@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---------- Stage 1: build frontend assets (butuh PHP untuk wayfinder) ----------
-FROM php:8.3-cli-alpine AS assets
+FROM php:8.4-cli-alpine AS assets
 
 RUN apk add --no-cache nodejs npm git unzip icu-dev libzip-dev oniguruma-dev \
     && docker-php-ext-install -j"$(nproc)" intl zip bcmath \
@@ -24,7 +24,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm build
 
 # ---------- Stage 2: runtime ----------
-FROM php:8.3-fpm-alpine AS runtime
+FROM php:8.4-fpm-alpine AS runtime
 
 RUN apk add --no-cache \
         nginx \
