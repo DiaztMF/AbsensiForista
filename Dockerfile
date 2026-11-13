@@ -3,8 +3,20 @@
 # ---------- Stage 1: build frontend assets (butuh PHP untuk wayfinder) ----------
 FROM php:8.4-cli-alpine AS assets
 
-RUN apk add --no-cache nodejs npm git unzip icu-dev libzip-dev oniguruma-dev \
-    && docker-php-ext-install -j"$(nproc)" intl zip bcmath \
+RUN apk add --no-cache \
+        nodejs \
+        npm \
+        git \
+        unzip \
+        icu-dev \
+        libzip-dev \
+        oniguruma-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        freetype-dev \
+        postgresql-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j"$(nproc)" intl zip bcmath gd pdo_pgsql \
     && npm install -g pnpm@10
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -12,7 +24,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-progress
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-progress
 
 COPY . .
 RUN composer dump-autoload --optimize --no-dev \
@@ -44,7 +56,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-progress
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-progress
 
 # Kode aplikasi + vendor yang sudah diinstall; build asset dari stage 1.
 COPY . .
