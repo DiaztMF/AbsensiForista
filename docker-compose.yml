@@ -1,116 +1,78 @@
 services:
-    web:
-        build:
-            context: .
-            target: runtime
-        image: forista-attendance:latest
-        restart: unless-stopped
-        environment:
-            CONTAINER_ROLE: web
-            APP_ENV: production
-            APP_DEBUG: 'false'
-            APP_URL: ${APP_URL:-https://forista.klikhadir.my.id}
-            APP_KEY: ${APP_KEY}
-            DB_CONNECTION: pgsql
-            DB_HOST: db
-            DB_PORT: 5432
-            DB_DATABASE: ${DB_DATABASE:-forista}
-            DB_USERNAME: ${DB_USERNAME:-forista}
-            DB_PASSWORD: ${DB_PASSWORD}
-            SESSION_DRIVER: database
-            CACHE_STORE: database
-            QUEUE_CONNECTION: database
-            SESSION_SECURE_COOKIE: 'true'
-            SESSION_DOMAIN: ${SESSION_DOMAIN:-forista.klikhadir.my.id}
-            VAPID_SUBJECT: ${VAPID_SUBJECT}
-            VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
-            VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
-        ports:
-            - '8080:8080'
-        depends_on:
-            db:
-                condition: service_healthy
-        healthcheck:
-            test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8080/up']
-            interval: 30s
-            timeout: 5s
-            retries: 3
-            start_period: 40s
+  web:
+    image: ghcr.io/DiaztMF/absensi-forista:latest
+    restart: unless-stopped
+    environment:
+      CONTAINER_ROLE: web
+      APP_ENV: production
+      APP_DEBUG: 'false'
+      APP_URL: ${APP_URL:-https://forista.klikhadir.my.id}
+      APP_KEY: ${APP_KEY}
+      DB_CONNECTION: pgsql
+      DB_HOST: mx2cv5uegvmvtoxe6rx2eqof
+      DB_PORT: 5432
+      DB_DATABASE: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: ${DB_PASSWORD}
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      SESSION_SECURE_COOKIE: 'true'
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-forista.klikhadir.my.id}
+      VAPID_SUBJECT: ${VAPID_SUBJECT}
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
+    ports:
+      - '8080:8080'
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8080/up']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
 
-    worker:
-        image: forista-attendance:latest
-        restart: unless-stopped
-        environment:
-            CONTAINER_ROLE: worker
-            APP_ENV: production
-            APP_DEBUG: 'false'
-            APP_URL: ${APP_URL:-https://forista.klikhadir.my.id}
-            APP_KEY: ${APP_KEY}
-            DB_CONNECTION: pgsql
-            DB_HOST: db
-            DB_PORT: 5432
-            DB_DATABASE: ${DB_DATABASE:-forista}
-            DB_USERNAME: ${DB_USERNAME:-forista}
-            DB_PASSWORD: ${DB_PASSWORD}
-            SESSION_DRIVER: database
-            SESSION_DOMAIN: ${SESSION_DOMAIN:-forista.klikhadir.my.id}
-            CACHE_STORE: database
-            QUEUE_CONNECTION: database
-            VAPID_SUBJECT: ${VAPID_SUBJECT}
-            VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
-            VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
-        depends_on:
-            db:
-                condition: service_healthy
-            web:
-                condition: service_started
+  worker:
+    image: ghcr.io/DiaztMF/absensi-forista:latest
+    restart: unless-stopped
+    environment:
+      CONTAINER_ROLE: worker
+      APP_ENV: production
+      APP_DEBUG: 'false'
+      APP_URL: ${APP_URL:-https://forista.klikhadir.my.id}
+      APP_KEY: ${APP_KEY}
+      DB_CONNECTION: pgsql
+      DB_HOST: mx2cv5uegvmvtoxe6rx2eqof
+      DB_PORT: 5432
+      DB_DATABASE: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: ${DB_PASSWORD}
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-forista.klikhadir.my.id}
+      VAPID_SUBJECT: ${VAPID_SUBJECT}
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
 
-    scheduler:
-        image: forista-attendance:latest
-        restart: unless-stopped
-        environment:
-            CONTAINER_ROLE: scheduler
-            APP_ENV: production
-            APP_DEBUG: 'false'
-            APP_URL: ${APP_URL:-https://forista.klikhadir.my.id}
-            APP_KEY: ${APP_KEY}
-            DB_CONNECTION: pgsql
-            DB_HOST: db
-            DB_PORT: 5432
-            DB_DATABASE: ${DB_DATABASE:-forista}
-            DB_USERNAME: ${DB_USERNAME:-forista}
-            DB_PASSWORD: ${DB_PASSWORD}
-            SESSION_DRIVER: database
-            SESSION_DOMAIN: ${SESSION_DOMAIN:-forista.klikhadir.my.id}
-            CACHE_STORE: database
-            QUEUE_CONNECTION: database
-            VAPID_SUBJECT: ${VAPID_SUBJECT}
-            VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
-            VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
-        depends_on:
-            db:
-                condition: service_healthy
-            web:
-                condition: service_started
-
-    db:
-        image: postgres:17-alpine
-        restart: unless-stopped
-        environment:
-            POSTGRES_DB: ${DB_DATABASE:-forista}
-            POSTGRES_USER: ${DB_USERNAME:-forista}
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
-        volumes:
-            - pgdata:/var/lib/postgresql/data
-        healthcheck:
-            test:
-                [
-                    'CMD-SHELL',
-                    'pg_isready -U ${DB_USERNAME:-forista} -d ${DB_DATABASE:-forista}',
-                ]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-
-volumes:
-    pgdata:
+  scheduler:
+    image: ghcr.io/DiaztMF/absensi-forista:latest
+    restart: unless-stopped
+    environment:
+      CONTAINER_ROLE: scheduler
+      APP_ENV: production
+      APP_DEBUG: 'false'
+      APP_URL: ${APP_URL:-https://forista.klikhadir.my.id}
+      APP_KEY: ${APP_KEY}
+      DB_CONNECTION: pgsql
+      DB_HOST: mx2cv5uegvmvtoxe6rx2eqof
+      DB_PORT: 5432
+      DB_DATABASE: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: ${DB_PASSWORD}
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-forista.klikhadir.my.id}
+      VAPID_SUBJECT: ${VAPID_SUBJECT}
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
