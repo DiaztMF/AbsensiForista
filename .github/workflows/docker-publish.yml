@@ -34,4 +34,4 @@ jobs:
             BCRYPT_ROUNDS=12
 
       - name: Image digest
-        run: echo "Image: ghcr.io/${{ github.repository_owner }}/absensi-forista:latest"
+        run: 'echo "Build complete: ghcr.io/${{ github.repository_owner }}/absensi-forista:latest"'
