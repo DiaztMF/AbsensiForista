@@ -1,3 +1,4 @@
+import AppLogo from "@/components/app-logo";
 import { Head, useForm } from "@inertiajs/react";
 import { Eye, EyeOff, Loader2, Lock, MapPinCheck, User } from "lucide-react";
 import { useState } from "react";
@@ -25,7 +26,7 @@ export default function Login() {
 
             <div className="relative hidden overflow-hidden bg-[#5C3806] select-none lg:flex lg:w-1/2">
                 <img
-                    src="/images/login-forista.jpg"
+                    src="/images/login_forista.jpg"
                     alt="Forum OSIS Surakarta"
                     className="absolute inset-0 h-full w-full object-cover object-center"
                 />
@@ -37,7 +38,7 @@ export default function Login() {
                         setiap pertemuan.”
                     </blockquote>
                     <p className="mt-3 text-sm font-medium text-white/80">
-                        — Forum OSIS Surakarta (FORISTA)
+                        Forum OSIS Surakarta (FORISTA)
                     </p>
                 </div>
             </div>
@@ -45,7 +46,7 @@ export default function Login() {
             <div className="rounded-b-[32px] bg-[#5C3806] px-6 pt-10 pb-8 text-white shadow-sm lg:hidden">
                 <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F39C12] text-white shadow-xs">
-                        <MapPinCheck className="h-5 w-5" />
+                        <AppLogo />
                     </div>
                     <div>
                         <p className="text-base leading-none font-bold tracking-tight">FORISTA</p>
@@ -57,17 +58,14 @@ export default function Login() {
             <div className="flex flex-1 flex-col justify-between bg-[#F6F1EB] px-6 py-8 lg:px-14 lg:py-10">
                 <div className="hidden items-center justify-between lg:flex">
                     <div className="flex items-center gap-2.5">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#5C3806] text-[#F39C12] shadow-xs">
-                            <MapPinCheck className="h-5 w-5" />
+                        <div className="flex h-9 w-9 items-center justify-center">
+                            <AppLogo />
                         </div>
                         <span className="text-base font-extrabold tracking-tight text-[#1E1915]">
                             FORISTA <span className="font-medium text-[#7C7269]">Attendance</span>
                         </span>
                     </div>
 
-                    <span className="rounded-full border border-[#E6DFD6] bg-white px-3 py-1.5 text-xs font-semibold text-[#7C7269]">
-                        Portal Anggota & Pengurus
-                    </span>
                 </div>
 
                 <div className="mx-auto my-auto w-full max-w-sm py-6">
@@ -184,8 +182,9 @@ export default function Login() {
                     <div className="mt-6 rounded-2xl border border-[#E6DFD6] bg-white/80 p-3.5 text-center">
                         <p className="text-xs leading-relaxed text-[#7C7269]">
                             Lupa kata sandi atau belum memiliki akun?{" "}
+                            <br></br>
                             <span className="font-semibold text-[#5C3806]">
-                                Hubungi Admin Pengurus FORISTA
+                                Hubungi Admin
                             </span>{" "}
                             untuk pembuatan akun atau reset sandi.
                         </p>
