@@ -48,7 +48,7 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
         <div className="flex min-h-dvh flex-col bg-[#F6F1EB] text-[#1E1915] lg:flex-row">
             <Head title={`${title} — Admin FORISTA`} />
 
-            <aside className="hidden shrink-0 bg-[#5C3806] p-5 text-white lg:flex lg:w-64 lg:flex-col">
+            <aside className="hidden lg:flex fixed inset-y-0 left-0 z-20 w-64 flex flex-col bg-[#5C3806] p-5 text-white">
                 <div className="flex items-center gap-3 border-b border-white/15 pb-6">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl text-white shadow-xs">
                         <AppLogoIcon className="h-8 w-8" />
@@ -142,7 +142,7 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
                 </div>
             </header>
 
-            <main className="mx-auto w-full max-w-7xl flex-1 p-4 pb-24 sm:p-6 lg:p-8 lg:pb-8">
+            <main className="mx-auto w-full max-w-7xl flex-1 p-4 pb-24 sm:p-6 lg:p-8 lg:pb-8 lg:ml-64">
                 {successText && (
                     <div className="mb-5 rounded-2xl border border-[#0FA958]/30 bg-[#E8F8F0] px-4 py-3 text-xs font-bold text-[#0FA958]">
                         {successText}
