@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\AgendaSession;
+use App\Models\User;
 use App\Notifications\Channels\WebPushChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,6 +21,12 @@ class AgendaReminderNotification extends Notification implements ShouldQueue
         public string $body
     ) {}
 
+    /**
+     * Notification ini hanya dikirim ke model User.
+     *
+     * @param  User  $notifiable
+     * @return list<string>
+     */
     public function via(object $notifiable): array
     {
         $channels = ['database'];
@@ -31,6 +38,10 @@ class AgendaReminderNotification extends Notification implements ShouldQueue
         return $channels;
     }
 
+    /**
+     * @param  User  $notifiable
+     * @return array<string, mixed>
+     */
     public function toDatabase(object $notifiable): array
     {
         return [
@@ -42,6 +53,10 @@ class AgendaReminderNotification extends Notification implements ShouldQueue
         ];
     }
 
+    /**
+     * @param  User  $notifiable
+     * @return array<string, mixed>
+     */
     public function toWebPush(object $notifiable): array
     {
         return [

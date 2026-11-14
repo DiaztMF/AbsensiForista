@@ -36,9 +36,12 @@ class RecapController extends Controller
                 ->get(['id', 'session_date', 'starts_at', 'ends_at', 'window_opens_at', 'window_closes_at', 'status'])
             : collect();
 
-        $activeSession = $selectedSessionId
-            ? AgendaSession::with('agenda')->find($selectedSessionId)
-            : ($sessions->first() ? AgendaSession::with('agenda')->find($sessions->first()->id) : null);
+        $activeSession = null;
+        if ($selectedSessionId) {
+            $activeSession = AgendaSession::with('agenda')->whereKey($selectedSessionId)->first();
+        } elseif ($sessions->first() !== null) {
+            $activeSession = AgendaSession::with('agenda')->whereKey($sessions->first()->id)->first();
+        }
 
         // Single source of truth: rekap data dibangun via RecapDataBuilder
         $sessionRows = $activeSession ? $builder->buildSessionRecap($activeSession, $divisionId)['rows'] : [];
@@ -68,7 +71,7 @@ class RecapController extends Controller
         AgendaSession $session,
         RecordManualAttendanceAction $manualAction
     ): RedirectResponse {
-        $member = User::findOrFail($request->validated('user_id'));
+        $member = User::whereKey($request->validated('user_id'))->firstOrFail();
 
         try {
             $manualAction->execute(

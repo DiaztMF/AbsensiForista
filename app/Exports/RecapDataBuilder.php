@@ -14,6 +14,36 @@ use App\Models\Division;
 use App\Models\User;
 use Carbon\Carbon;
 
+/**
+ * @phpstan-type SessionRow array{
+ *     user_id: int,
+ *     name: string,
+ *     username: string|null,
+ *     division: string,
+ *     status: string,
+ *     status_label: string,
+ *     checked_at: string,
+ *     distance_m: float|null,
+ *     distance_label: string,
+ *     source: string|null,
+ *     source_label: string,
+ *     manual_reason: string|null,
+ *     created_by_name: string|null,
+ *     failed_attempts: int,
+ *     is_locked: bool,
+ * }
+ * @phpstan-type SessionRecap array{
+ *     meta: array{agenda_title: string, location_name: string, session_date: string, window_time: string, division_name: string},
+ *     rows: array<int, SessionRow>,
+ *     summary: array{total_active: int, present_count: int, absent_count: int, auto_count: int, manual_count: int},
+ * }
+ * @phpstan-type RangeRow array{user_id: int, name: string, username: string|null, division: string, total_sessions: int, attended_count: int, percentage: int|float, score: int|float}
+ * @phpstan-type RangeRecap array{
+ *     meta: array{agenda_title: string, division_name: string, period_label: string},
+ *     rows: array<int, RangeRow>,
+ *     summary: array{total_active: int, total_sessions: int, average_percentage: int, average_score: float},
+ * }
+ */
 class RecapDataBuilder
 {
     public function __construct(
@@ -22,12 +52,13 @@ class RecapDataBuilder
 
     /**
      * Membangun data rekap per sesi pertemuan (Hadir / Belum hadir).
+     *
+     * @return SessionRecap
      */
     public function buildSessionRecap(?AgendaSession $session, ?int $divisionId = null): array
     {
-        $divisionName = $divisionId
-            ? (Division::find($divisionId)?->name ?? 'Semua Divisi')
-            : 'Semua Divisi';
+        $division = $divisionId ? Division::find($divisionId) : null;
+        $divisionName = $division->name ?? 'Semua Divisi';
 
         if (! $session) {
             return [
@@ -136,6 +167,8 @@ class RecapDataBuilder
 
     /**
      * Membangun data rekap kumulatif rentang tanggal (persentase & skor 1.0 - 10.0).
+     *
+     * @return RangeRecap
      */
     public function buildRangeRecap(
         ?int $agendaId = null,
@@ -143,13 +176,11 @@ class RecapDataBuilder
         ?string $fromDate = null,
         ?string $toDate = null
     ): array {
-        $agendaTitle = $agendaId
-            ? (Agenda::find($agendaId)?->title ?? 'Semua Agenda')
-            : 'Semua Agenda';
+        $agenda = $agendaId ? Agenda::find($agendaId) : null;
+        $agendaTitle = $agenda->title ?? 'Semua Agenda';
 
-        $divisionName = $divisionId
-            ? (Division::find($divisionId)?->name ?? 'Semua Divisi')
-            : 'Semua Divisi';
+        $division = $divisionId ? Division::find($divisionId) : null;
+        $divisionName = $division->name ?? 'Semua Divisi';
 
         $fromCarbon = $fromDate ? Carbon::parse($fromDate) : null;
         $toCarbon = $toDate ? Carbon::parse($toDate) : null;

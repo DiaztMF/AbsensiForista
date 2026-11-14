@@ -170,5 +170,5 @@ class AuthenticationTest extends TestCase
 
         $response->assertRedirect(route('home'));
         $this->assertGuest();
-        }
+    }
 }

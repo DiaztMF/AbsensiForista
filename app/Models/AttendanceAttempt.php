@@ -28,11 +28,13 @@ class AttendanceAttempt extends Model
         ];
     }
 
+    /** @return BelongsTo<AgendaSession, $this> */
     public function session(): BelongsTo
     {
         return $this->belongsTo(AgendaSession::class, 'agenda_session_id');
     }
 
+    /** @return BelongsTo<User, $this> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

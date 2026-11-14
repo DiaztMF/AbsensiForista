@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Member;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CheckInRequest extends FormRequest
@@ -11,6 +12,9 @@ class CheckInRequest extends FormRequest
         return $this->user()?->is_active === true;
     }
 
+    /**
+     * @return array<string, ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
         return [

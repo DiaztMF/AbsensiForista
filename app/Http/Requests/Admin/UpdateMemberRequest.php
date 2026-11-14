@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\UserRole;
+use App\Models\User;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -22,9 +24,13 @@ class UpdateMemberRequest extends FormRequest
         }
     }
 
+    /**
+     * @return array<string, ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
-        $memberId = $this->route('member')->id;
+        $member = $this->route('member');
+        $memberId = $member instanceof User ? $member->id : (int) $member;
 
         return [
             'name' => ['required', 'string', 'max:150'],

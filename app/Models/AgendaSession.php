@@ -38,6 +38,10 @@ class AgendaSession extends Model
         ];
     }
 
+    /**
+     * @param  Builder<self>  $query
+     * @return Builder<self>
+     */
     public function scopeScheduled(Builder $query): Builder
     {
         return $query->where('status', SessionStatus::Scheduled);
@@ -46,6 +50,9 @@ class AgendaSession extends Model
     /**
      * Sesi yang sudah selesai (window sudah ditutup) dan tidak dibatalkan.
      * Dipakai sebagai pembagi (denominator) persentase dan skor anggota.
+     *
+     * @param  Builder<self>  $query
+     * @return Builder<self>
      */
     public function scopeCompleted(Builder $query): Builder
     {
@@ -58,16 +65,19 @@ class AgendaSession extends Model
             && now()->betweenIncluded($this->window_opens_at, $this->window_closes_at);
     }
 
+    /** @return BelongsTo<Agenda, $this> */
     public function agenda(): BelongsTo
     {
         return $this->belongsTo(Agenda::class);
     }
 
+    /** @return HasMany<Attendance, $this> */
     public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
     }
 
+    /** @return HasMany<AttendanceAttempt, $this> */
     public function attempts(): HasMany
     {
         return $this->hasMany(AttendanceAttempt::class);

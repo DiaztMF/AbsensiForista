@@ -28,11 +28,13 @@ class AuditLog extends Model
         ];
     }
 
+    /** @return BelongsTo<User, $this> */
     public function actor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'actor_id');
     }
 
+    /** @return BelongsTo<User, $this> */
     public function targetUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'target_user_id');

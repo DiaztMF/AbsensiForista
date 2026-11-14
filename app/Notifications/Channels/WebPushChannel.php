@@ -3,12 +3,18 @@
 namespace App\Notifications\Channels;
 
 use App\Models\PushSubscription;
+use App\Models\User;
 use Illuminate\Notifications\Notification;
 use Minishlink\WebPush\Subscription;
 use Minishlink\WebPush\WebPush;
 
 class WebPushChannel
 {
+    /**
+     * Channel ini hanya dipakai untuk notifiable model User.
+     *
+     * @param  User  $notifiable
+     */
     public function send(object $notifiable, Notification $notification): void
     {
         if (! method_exists($notification, 'toWebPush')) {

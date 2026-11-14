@@ -40,7 +40,10 @@ class GeocodingController extends Controller
                 return [];
             }
 
-            return collect($response->json())
+            $body = $response->json();
+            $items = is_array($body) ? $body : [];
+
+            return collect($items)
                 ->map(fn (array $item) => [
                     'display_name' => $item['display_name'],
                     'latitude' => (float) $item['lat'],

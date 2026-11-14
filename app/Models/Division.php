@@ -11,8 +11,10 @@ class Division extends Model
 {
     /** @use HasFactory<DivisionFactory> */
     use HasFactory;
+
     protected $fillable = ['name', 'color'];
 
+    /** @return HasMany<User, $this> */
     public function users(): HasMany
     {
         return $this->hasMany(User::class);

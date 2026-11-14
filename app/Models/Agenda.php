@@ -38,11 +38,16 @@ class Agenda extends Model
         ];
     }
 
+    /**
+     * @param  Builder<self>  $query
+     * @return Builder<self>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
+    /** @return HasMany<AgendaSession, $this> */
     public function sessions(): HasMany
     {
         return $this->hasMany(AgendaSession::class);

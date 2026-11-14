@@ -6,11 +6,35 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ExcelRecapExporter
 {
+    /**
+     * @param array{
+     *     meta: array{agenda_title: string, location_name: string, session_date: string, window_time: string, division_name: string},
+     *     rows: array<int, array{
+     *         user_id: int,
+     *         name: string,
+     *         username: string|null,
+     *         division: string,
+     *         status: string,
+     *         status_label: string,
+     *         checked_at: string,
+     *         distance_m: float|null,
+     *         distance_label: string,
+     *         source: string|null,
+     *         source_label: string,
+     *         manual_reason: string|null,
+     *         created_by_name: string|null,
+     *         failed_attempts: int,
+     *         is_locked: bool,
+     *     }>,
+     *     summary: array{total_active: int, present_count: int, absent_count: int, auto_count: int, manual_count: int},
+     * } $data
+     */
     public function downloadSessionRecap(array $data, string $filename): StreamedResponse
     {
         $spreadsheet = new Spreadsheet;
@@ -71,6 +95,22 @@ class ExcelRecapExporter
         return $this->streamSpreadsheet($spreadsheet, $filename);
     }
 
+    /**
+     * @param array{
+     *     meta: array{agenda_title: string, division_name: string, period_label: string},
+     *     rows: array<int, array{
+     *         user_id: int,
+     *         name: string,
+     *         username: string|null,
+     *         division: string,
+     *         total_sessions: int,
+     *         attended_count: int,
+     *         percentage: int|float,
+     *         score: int|float,
+     *     }>,
+     *     summary: array{total_active: int, total_sessions: int, average_percentage: int, average_score: float},
+     * } $data
+     */
     public function downloadRangeRecap(array $data, string $filename): StreamedResponse
     {
         $spreadsheet = new Spreadsheet;
@@ -120,7 +160,7 @@ class ExcelRecapExporter
         return $this->streamSpreadsheet($spreadsheet, $filename);
     }
 
-    private function styleHeaderRow($sheet, string $range): void
+    private function styleHeaderRow(Worksheet $sheet, string $range): void
     {
         $style = $sheet->getStyle($range);
         $style->getFont()->setBold(true)->getColor()->setARGB('FFFFFFFF');
@@ -128,14 +168,14 @@ class ExcelRecapExporter
         $style->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
     }
 
-    private function styleSummaryRow($sheet, string $range): void
+    private function styleSummaryRow(Worksheet $sheet, string $range): void
     {
         $style = $sheet->getStyle($range);
         $style->getFont()->setBold(true)->getColor()->setARGB('FF2B1A14');
         $style->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFFF6E3');
     }
 
-    private function applyTableBorders($sheet, string $range): void
+    private function applyTableBorders(Worksheet $sheet, string $range): void
     {
         $sheet->getStyle($range)->getBorders()->getAllBorders()
             ->setBorderStyle(Border::BORDER_THIN)

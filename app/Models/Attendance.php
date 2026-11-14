@@ -28,16 +28,19 @@ class Attendance extends Model
         ];
     }
 
+    /** @return BelongsTo<AgendaSession, $this> */
     public function session(): BelongsTo
     {
         return $this->belongsTo(AgendaSession::class, 'agenda_session_id');
     }
 
+    /** @return BelongsTo<User, $this> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /** @return BelongsTo<User, $this> */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');

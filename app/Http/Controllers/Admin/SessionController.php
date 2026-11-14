@@ -10,9 +10,9 @@ use App\Models\User;
 use App\Notifications\AgendaReminderNotification;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
+use Inertia\Inertia;
 
 class SessionController extends Controller
 {
