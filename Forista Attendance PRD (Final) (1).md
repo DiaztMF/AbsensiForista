@@ -20,24 +20,24 @@ Without a location-verified check-in, Forum OSIS Surakarta cannot confirm that m
 
 The personas below are working profiles built from the brief, not research findings.
 
-| Persona | Who | Context | Typical scenario |
-| --- | --- | --- | --- |
-| Member | One of 57 forum members, each belonging to a division | Uses a smartphone (Android or iPhone) with mobile data; attends weekly meetings at a venue in Surakarta; not tech-savvy by assumption | The meeting ends. A reminder arrives, the member opens Forista, slides the button, waits a few seconds while the map confirms the location, and sees "Presensi berhasil!" |
-| Admin | One of 3 board members who run the forum | Uses a phone or laptop; prepares agendas ahead of time; needs accurate records quickly | Before the term starts, creates accounts and a weekly agenda with a map pin. After each meeting, reviews who is missing, resets a forgotten password, or records a manual attendance with a reason |
+| Persona | Who                                                   | Context                                                                                                                               | Typical scenario                                                                                                                                                                                   |
+| ------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Member  | One of 57 forum members, each belonging to a division | Uses a smartphone (Android or iPhone) with mobile data; attends weekly meetings at a venue in Surakarta; not tech-savvy by assumption | The meeting ends. A reminder arrives, the member opens Forista, slides the button, waits a few seconds while the map confirms the location, and sees "Presensi berhasil!"                          |
+| Admin   | One of 3 board members who run the forum              | Uses a phone or laptop; prepares agendas ahead of time; needs accurate records quickly                                                | Before the term starts, creates accounts and a weekly agenda with a map pin. After each meeting, reviews who is missing, resets a forgotten password, or records a manual attendance with a reason |
 
 ## Goals and Success Metrics
 
 Targets are proposed starting points for the first term of use; please adjust them.
 
-| Goal | Metric | Target | How measured |
-| --- | --- | --- | --- |
-| Fast check-in | Time from opening the dashboard to the success pop up | 60 seconds or less for 90% of check-ins | Timestamps of the first attempt and the attendance record |
-| Adoption | Members who attended a meeting and checked in themselves | 90% or more per meeting | Attendance records with source = auto, divided by attendees counted by Admin |
-| Trustworthy results | Duplicate attendance records per member per meeting | 0 | Database unique constraint and test suite |
-| Minimal manual work | Attendance recorded manually by Admin | 10% or less of all records | Records with source = manual |
-| Dependable recap | Excel and PDF export totals matching the on-screen recap | 100% | Automated comparison test |
-| Responsive system | Server decision time per check-in at 15 simultaneous users | Under 2 seconds | Load test before release |
-| Timely reminders | Active push subscribers who receive a reminder within 1 minute of its scheduled time | 95% or more | Notification log |
+| Goal                | Metric                                                                               | Target                                  | How measured                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------ | --------------------------------------- | ---------------------------------------------------------------------------- |
+| Fast check-in       | Time from opening the dashboard to the success pop up                                | 60 seconds or less for 90% of check-ins | Timestamps of the first attempt and the attendance record                    |
+| Adoption            | Members who attended a meeting and checked in themselves                             | 90% or more per meeting                 | Attendance records with source = auto, divided by attendees counted by Admin |
+| Trustworthy results | Duplicate attendance records per member per meeting                                  | 0                                       | Database unique constraint and test suite                                    |
+| Minimal manual work | Attendance recorded manually by Admin                                                | 10% or less of all records              | Records with source = manual                                                 |
+| Dependable recap    | Excel and PDF export totals matching the on-screen recap                             | 100%                                    | Automated comparison test                                                    |
+| Responsive system   | Server decision time per check-in at 15 simultaneous users                           | Under 2 seconds                         | Load test before release                                                     |
+| Timely reminders    | Active push subscribers who receive a reminder within 1 minute of its scheduled time | 95% or more                             | Notification log                                                             |
 
 ## Scope (In-Scope vs. Out-of-Scope)
 
@@ -69,36 +69,36 @@ Targets are proposed starting points for the first term of use; please adjust th
 
 The member flow is: log in, see the welcome pop up, open the dashboard, slide the button after the meeting, wait while the map tracks and matches the location, see "Presensi berhasil!", and find the result on the dashboard.
 
-| ID | Feature | User story |
-| --- | --- | --- |
-| F1-1 | Accounts | As an Admin, I want to create member accounts with a username, full name, and division so that only real members can use the app. |
-| F1-2 | Login | As a Member, I want to log in with my username and password so that I can reach my own attendance. |
-| F1-3 | Password reset | As an Admin, I want to reset a member's password so that a member who forgot it can get back in after contacting me. |
-| F2-1 | Welcome | As a Member, I want to see "Selamat Datang, (my name)" after logging in so that I know I am in the right account. |
-| F3-1 | Agenda | As an Admin, I want to create a weekly recurring agenda with start time, end time, and location so that meeting sessions are generated automatically. |
-| F3-2 | Location | As an Admin, I want to set the location by address or coordinates and see the radius on a map so that I know where check-in will be accepted. |
-| F3-3 | Rules per agenda | As an Admin, I want to set the radius and the check-in window per agenda so that venues of different sizes can be handled. |
-| F4-1 | Check-in | As a Member, I want to slide a button to track my location after the meeting so that my attendance is recorded without typing. |
-| F4-2 | Failure feedback | As a Member, I want to see why a check-in failed and how many attempts remain so that I can fix the problem and try again. |
-| F4-3 | Confirmation | As a Member, I want a "Presensi berhasil!" pop up so that I know my attendance is saved. |
-| F5-1 | Member dashboard | As a Member, I want to see my total attended meetings, attendance percentage, 1 to 10 score, and monthly history so that I can track my participation. |
-| F6-1 | Reminders | As a Member, I want a reminder before a meeting and when check-in opens so that I do not miss the window. |
-| F7-1 | Recap | As an Admin, I want a recap per agenda and a list of members who are not yet present so that I can follow up quickly. |
-| F7-2 | Export | As an Admin, I want to export the recap to Excel and PDF so that I can report to the board. |
-| F8-1 | Manual attendance | As an Admin, I want to record attendance manually with a reason so that members with a real problem are still counted and the change is traceable. |
+| ID   | Feature           | User story                                                                                                                                             |
+| ---- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| F1-1 | Accounts          | As an Admin, I want to create member accounts with a username, full name, and division so that only real members can use the app.                      |
+| F1-2 | Login             | As a Member, I want to log in with my username and password so that I can reach my own attendance.                                                     |
+| F1-3 | Password reset    | As an Admin, I want to reset a member's password so that a member who forgot it can get back in after contacting me.                                   |
+| F2-1 | Welcome           | As a Member, I want to see "Selamat Datang, (my name)" after logging in so that I know I am in the right account.                                      |
+| F3-1 | Agenda            | As an Admin, I want to create a weekly recurring agenda with start time, end time, and location so that meeting sessions are generated automatically.  |
+| F3-2 | Location          | As an Admin, I want to set the location by address or coordinates and see the radius on a map so that I know where check-in will be accepted.          |
+| F3-3 | Rules per agenda  | As an Admin, I want to set the radius and the check-in window per agenda so that venues of different sizes can be handled.                             |
+| F4-1 | Check-in          | As a Member, I want to slide a button to track my location after the meeting so that my attendance is recorded without typing.                         |
+| F4-2 | Failure feedback  | As a Member, I want to see why a check-in failed and how many attempts remain so that I can fix the problem and try again.                             |
+| F4-3 | Confirmation      | As a Member, I want a "Presensi berhasil!" pop up so that I know my attendance is saved.                                                               |
+| F5-1 | Member dashboard  | As a Member, I want to see my total attended meetings, attendance percentage, 1 to 10 score, and monthly history so that I can track my participation. |
+| F6-1 | Reminders         | As a Member, I want a reminder before a meeting and when check-in opens so that I do not miss the window.                                              |
+| F7-1 | Recap             | As an Admin, I want a recap per agenda and a list of members who are not yet present so that I can follow up quickly.                                  |
+| F7-2 | Export            | As an Admin, I want to export the recap to Excel and PDF so that I can report to the board.                                                            |
+| F8-1 | Manual attendance | As an Admin, I want to record attendance manually with a reason so that members with a real problem are still counted and the change is traceable.     |
 
 ### Admin dashboard and functions
 
 The Admin area is responsive (phone and laptop). It opens on the recap for today's or the next meeting. Admins are also members, so they can switch to the Member screens to check in.
 
-| Area | Functions | User story |
-| --- | --- | --- |
-| Members and divisions | List with search and division filter; create a member (full name, username, division, initial password); edit; deactivate or reactivate; reset a password to a temporary one; create, rename, and delete divisions (delete is blocked while members are assigned); open any member's history, percentage, and score | As an Admin, I want to manage members and divisions so that the roster and passwords are always correct. |
-| Agendas and sessions | Create, edit, and stop weekly recurring agendas; set the location on the map, by address, or by coordinates; set radius and check-in window; see generated sessions; shift the check-in window of one session when a meeting runs long | As an Admin, I want to control when and where check-in is valid so that it matches the real meeting. |
-| Attendance recap | Choose an agenda and a date or date range; every active member shown as Hadir or Belum hadir with time, distance, source (auto or manual), and attempts used; counts per status; division filter; per-member totals with percentage and score over the range | As an Admin, I want to see who attended each meeting and over time so that I can evaluate participation. |
-| Not yet present and reminders | List of members not yet present for a session, filterable by division, with a button to send them a reminder; members locked after 3 failed attempts are visible here | As an Admin, I want to follow up with members who have not checked in so that the recap is complete. |
-| Manual attendance | Record attendance for a member with a mandatory reason; the Admin and time are stored | As an Admin, I want to record attendance manually with a reason so that real problems are handled and traceable. |
-| Export | Excel and PDF of the recap exactly as filtered on screen | As an Admin, I want to export the recap so that I can report to the board. |
+| Area                          | Functions                                                                                                                                                                                                                                                                                                           | User story                                                                                                       |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Members and divisions         | List with search and division filter; create a member (full name, username, division, initial password); edit; deactivate or reactivate; reset a password to a temporary one; create, rename, and delete divisions (delete is blocked while members are assigned); open any member's history, percentage, and score | As an Admin, I want to manage members and divisions so that the roster and passwords are always correct.         |
+| Agendas and sessions          | Create, edit, and stop weekly recurring agendas; set the location on the map, by address, or by coordinates; set radius and check-in window; see generated sessions; shift the check-in window of one session when a meeting runs long                                                                              | As an Admin, I want to control when and where check-in is valid so that it matches the real meeting.             |
+| Attendance recap              | Choose an agenda and a date or date range; every active member shown as Hadir or Belum hadir with time, distance, source (auto or manual), and attempts used; counts per status; division filter; per-member totals with percentage and score over the range                                                        | As an Admin, I want to see who attended each meeting and over time so that I can evaluate participation.         |
+| Not yet present and reminders | List of members not yet present for a session, filterable by division, with a button to send them a reminder; members locked after 3 failed attempts are visible here                                                                                                                                               | As an Admin, I want to follow up with members who have not checked in so that the recap is complete.             |
+| Manual attendance             | Record attendance for a member with a mandatory reason; the Admin and time are stored                                                                                                                                                                                                                               | As an Admin, I want to record attendance manually with a reason so that real problems are handled and traceable. |
+| Export                        | Excel and PDF of the recap exactly as filtered on screen                                                                                                                                                                                                                                                            | As an Admin, I want to export the recap so that I can report to the board.                                       |
 
 **Approved additions, included in release 1**
 
@@ -189,34 +189,34 @@ A feature is done when every condition under it passes in an automated test or a
 
 ## Non-Functional Requirements
 
-| Area | Requirement |
-| --- | --- |
-| Performance | Server decision for a check-in in under 2 seconds with 15 simultaneous users; dashboard loads in under 3 seconds on a 4G phone |
-| Security | Hashed passwords; login and check-in throttling; CSRF protection; server-side validation; role-based authorization on every route; audit log for manual attendance and password resets; HTTPS only; no public registration |
-| Data integrity | One attendance record per member per meeting enforced by a database unique constraint; concurrent requests cannot create duplicates |
-| Scalability | Built for 60 accounts today; separate web, queue worker, and scheduler processes so it can grow to a few hundred users without redesign |
-| Reliability | Daily PostgreSQL backup with a tested restore; health check endpoint for Coolify |
-| Accessibility | Touch targets of at least 44 px; text contrast of at least 4.5 to 1; tap or Enter alternative to the slide gesture; reduced-motion respected; icon buttons have labels |
-| Compatibility | Current Chrome and Safari on Android and iOS; GPS requires HTTPS; web push on iPhone requires iOS 16.4 or later with the site added to the Home Screen |
+| Area                   | Requirement                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Performance            | Server decision for a check-in in under 2 seconds with 15 simultaneous users; dashboard loads in under 3 seconds on a 4G phone                                                                                                                                                                                                                                                                                                  |
+| Security               | Hashed passwords; login and check-in throttling; CSRF protection; server-side validation; role-based authorization on every route; audit log for manual attendance and password resets; HTTPS only; no public registration                                                                                                                                                                                                      |
+| Data integrity         | One attendance record per member per meeting enforced by a database unique constraint; concurrent requests cannot create duplicates                                                                                                                                                                                                                                                                                             |
+| Scalability            | Built for 60 accounts today; separate web, queue worker, and scheduler processes so it can grow to a few hundred users without redesign                                                                                                                                                                                                                                                                                         |
+| Reliability            | Daily PostgreSQL backup with a tested restore; health check endpoint for Coolify                                                                                                                                                                                                                                                                                                                                                |
+| Accessibility          | Touch targets of at least 44 px; text contrast of at least 4.5 to 1; tap or Enter alternative to the slide gesture; reduced-motion respected; icon buttons have labels                                                                                                                                                                                                                                                          |
+| Compatibility          | Current Chrome and Safari on Android and iOS; GPS requires HTTPS; web push on iPhone requires iOS 16.4 or later with the site added to the Home Screen                                                                                                                                                                                                                                                                          |
 | Privacy and compliance | Location is requested only during check-in; raw GPS coordinates are used only for the match and are not stored; only the attendance result (status, time, distance, source) is kept; members see only their own data; a short consent notice explains this. Location is personal data under Indonesia's Personal Data Protection Law (UU PDP, Law No. 27 of 2022), so the forum should confirm its obligations with its advisor |
-| Localization | Indonesian interface; all dates and times in Asia/Jakarta (WIB) |
-| Map usage | OpenStreetMap tiles and Nominatim are used within their usage policies, with visible attribution and rate limiting |
+| Localization           | Indonesian interface; all dates and times in Asia/Jakarta (WIB)                                                                                                                                                                                                                                                                                                                                                                 |
+| Map usage              | OpenStreetMap tiles and Nominatim are used within their usage policies, with visible attribution and rate limiting                                                                                                                                                                                                                                                                                                              |
 
 ## Assumptions, Constraints, and Dependencies
 
-| Type | Item | Impact if wrong |
-| --- | --- | --- |
-| Assumption | Every member has a smartphone with GPS, mobile data, and a modern browser | Members without one need manual attendance |
-| Assumption | Members check in at the venue shortly after the meeting ends | Members who leave early may fail the radius check |
-| Assumption | The default radius of 20 m suits the venues used | Too tight rejects real attendees; too loose accepts people outside |
-| Constraint | GPS inside buildings is often accurate only to 10 to 30 m | Some honest members will be rejected; the 3 attempts and manual attendance cover this |
-| Constraint | No fake GPS detection in release 1 | A determined member could spoof a location |
-| Constraint | iPhone web push works only for sites added to the Home Screen (iOS 16.4 or later) | Some iPhone members will see in-app reminders only |
-| Constraint | Passwords are reset only by Admins | Admins must be reachable when members are locked out |
-| Dependency | Private Coolify VPS with a domain and HTTPS certificate | GPS and push do not work without HTTPS |
-| Dependency | OpenStreetMap tiles and Nominatim geocoding | Address search or the map is unavailable if they are down; coordinates can be typed instead |
-| Dependency | Web push keys (VAPID) and a running queue worker and scheduler | Reminders are not sent without them |
-| Dependency | Laravel 13 React starter kit, PostgreSQL, Leaflet | Version changes may require adjustments |
+| Type       | Item                                                                              | Impact if wrong                                                                             |
+| ---------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Assumption | Every member has a smartphone with GPS, mobile data, and a modern browser         | Members without one need manual attendance                                                  |
+| Assumption | Members check in at the venue shortly after the meeting ends                      | Members who leave early may fail the radius check                                           |
+| Assumption | The default radius of 20 m suits the venues used                                  | Too tight rejects real attendees; too loose accepts people outside                          |
+| Constraint | GPS inside buildings is often accurate only to 10 to 30 m                         | Some honest members will be rejected; the 3 attempts and manual attendance cover this       |
+| Constraint | No fake GPS detection in release 1                                                | A determined member could spoof a location                                                  |
+| Constraint | iPhone web push works only for sites added to the Home Screen (iOS 16.4 or later) | Some iPhone members will see in-app reminders only                                          |
+| Constraint | Passwords are reset only by Admins                                                | Admins must be reachable when members are locked out                                        |
+| Dependency | Private Coolify VPS with a domain and HTTPS certificate                           | GPS and push do not work without HTTPS                                                      |
+| Dependency | OpenStreetMap tiles and Nominatim geocoding                                       | Address search or the map is unavailable if they are down; coordinates can be typed instead |
+| Dependency | Web push keys (VAPID) and a running queue worker and scheduler                    | Reminders are not sent without them                                                         |
+| Dependency | Laravel 13 React starter kit, PostgreSQL, Leaflet                                 | Version changes may require adjustments                                                     |
 
 ## Open Questions and Appendix
 
@@ -240,15 +240,15 @@ A feature is done when every condition under it passes in an automated test or a
 
 **Appendix B: key data entities**
 
-| Entity | Main fields |
-| --- | --- |
-| users | full name, username, password, role (admin or member), division, is\_active |
-| divisions | name |
-| agendas | title, location name, address, latitude, longitude, radius\_m (default 20), weekday, start time, end time, window\_minutes (default 15), starts\_on, ends\_on |
-| agenda\_sessions | agenda, date, meeting end, window opens\_at, window closes\_at |
-| attendances | session, user, status (hadir), checked\_at, distance\_m, source (auto or manual), manual\_reason, created\_by |
-| attendance\_attempts | session, user, distance\_m, result (matched, outside\_radius, poor\_accuracy) |
-| notifications and push\_subscriptions | in-app notifications and browser push endpoints per user |
+| Entity                                | Main fields                                                                                                                                                   |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| users                                 | full name, username, password, role (admin or member), division, is\_active                                                                                   |
+| divisions                             | name                                                                                                                                                          |
+| agendas                               | title, location name, address, latitude, longitude, radius\_m (default 20), weekday, start time, end time, window\_minutes (default 15), starts\_on, ends\_on |
+| agenda\_sessions                      | agenda, date, meeting end, window opens\_at, window closes\_at                                                                                                |
+| attendances                           | session, user, status (hadir), checked\_at, distance\_m, source (auto or manual), manual\_reason, created\_by                                                 |
+| attendance\_attempts                  | session, user, distance\_m, result (matched, outside\_radius, poor\_accuracy)                                                                                 |
+| notifications and push\_subscriptions | in-app notifications and browser push endpoints per user                                                                                                      |
 
 **Appendix C: brand palette from the FORISTA logo**
 

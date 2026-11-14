@@ -1,7 +1,7 @@
-import { router, useForm } from "@inertiajs/react";
-import { KeyRound, Power, Trash2, UserPlus } from "lucide-react";
-import { useState } from "react";
-import AdminLayout from "@/layouts/admin-layout";
+import { router, useForm } from '@inertiajs/react';
+import { KeyRound, Power, Trash2, UserPlus } from 'lucide-react';
+import { useState } from 'react';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface Division {
     id: number;
@@ -29,30 +29,34 @@ interface MembersProps {
     filters: Filters;
 }
 
-export default function AdminMembersIndex({ members, divisions, filters }: MembersProps) {
+export default function AdminMembersIndex({
+    members,
+    divisions,
+    filters,
+}: MembersProps) {
     const [resetTarget, setResetTarget] = useState<Member | null>(null);
     const [search, setSearch] = useState(filters.search);
 
     const memberForm = useForm({
-        name: "",
-        username: "",
-        division_id: divisions[0]?.id ?? "",
-        role: "member",
-        password: "",
+        name: '',
+        username: '',
+        division_id: divisions[0]?.id ?? '',
+        role: 'member',
+        password: '',
     });
 
-    const divisionForm = useForm({ name: "" });
-    const resetForm = useForm({ password: "", reason: "" });
+    const divisionForm = useForm({ name: '' });
+    const resetForm = useForm({ password: '', reason: '' });
 
     const applyFilter = (patch: Partial<Filters>) => {
         router.get(
-            "/admin/members",
+            '/admin/members',
             { ...filters, ...patch },
             { preserveState: true, preserveScroll: true },
         );
     };
 
-    const field = "h-10 w-full rounded-xl border border-[#E2DAD0] px-3 text-xs";
+    const field = 'h-10 w-full rounded-xl border border-[#E2DAD0] px-3 text-xs';
 
     return (
         <AdminLayout title="Anggota & Divisi">
@@ -61,9 +65,14 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
-                            memberForm.post("/admin/members", {
+                            memberForm.post('/admin/members', {
                                 preserveScroll: true,
-                                onSuccess: () => memberForm.reset("name", "username", "password"),
+                                onSuccess: () =>
+                                    memberForm.reset(
+                                        'name',
+                                        'username',
+                                        'password',
+                                    ),
                             });
                         }}
                         className="space-y-3.5 rounded-3xl border border-[#EFEAE4] bg-white p-5 shadow-2xs"
@@ -78,7 +87,9 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                             required
                             placeholder="Nama Lengkap"
                             value={memberForm.data.name}
-                            onChange={(e) => memberForm.setData("name", e.target.value)}
+                            onChange={(e) =>
+                                memberForm.setData('name', e.target.value)
+                            }
                             className={field}
                         />
                         <input
@@ -86,13 +97,18 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                             required
                             placeholder="Username (tanpa spasi)"
                             value={memberForm.data.username}
-                            onChange={(e) => memberForm.setData("username", e.target.value)}
+                            onChange={(e) =>
+                                memberForm.setData('username', e.target.value)
+                            }
                             className={field}
                         />
                         <select
                             value={memberForm.data.division_id}
                             onChange={(e) =>
-                                memberForm.setData("division_id", Number(e.target.value))
+                                memberForm.setData(
+                                    'division_id',
+                                    Number(e.target.value),
+                                )
                             }
                             className={`${field} bg-white`}
                         >
@@ -104,7 +120,9 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                         </select>
                         <select
                             value={memberForm.data.role}
-                            onChange={(e) => memberForm.setData("role", e.target.value)}
+                            onChange={(e) =>
+                                memberForm.setData('role', e.target.value)
+                            }
                             className={`${field} bg-white`}
                         >
                             <option value="member">Member (Anggota)</option>
@@ -115,7 +133,9 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                             required
                             placeholder="Kata sandi awal (min. 6 karakter)"
                             value={memberForm.data.password}
-                            onChange={(e) => memberForm.setData("password", e.target.value)}
+                            onChange={(e) =>
+                                memberForm.setData('password', e.target.value)
+                            }
                             className={field}
                         />
 
@@ -135,11 +155,13 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                     </form>
 
                     <div className="space-y-3 rounded-3xl border border-[#EFEAE4] bg-white p-5 shadow-2xs">
-                        <h2 className="text-sm font-extrabold text-[#1E1915]">Daftar Divisi</h2>
+                        <h2 className="text-sm font-extrabold text-[#1E1915]">
+                            Daftar Divisi
+                        </h2>
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
-                                divisionForm.post("/admin/divisions", {
+                                divisionForm.post('/admin/divisions', {
                                     preserveScroll: true,
                                     onSuccess: () => divisionForm.reset(),
                                 });
@@ -151,7 +173,9 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                                 required
                                 placeholder="Nama divisi baru..."
                                 value={divisionForm.data.name}
-                                onChange={(e) => divisionForm.setData("name", e.target.value)}
+                                onChange={(e) =>
+                                    divisionForm.setData('name', e.target.value)
+                                }
                                 className="h-9 flex-1 rounded-xl border border-[#E2DAD0] px-3 text-xs"
                             />
                             <button
@@ -164,14 +188,22 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
 
                         <div className="divide-y divide-[#F2EDE7] text-xs">
                             {divisions.map((d) => (
-                                <div key={d.id} className="flex items-center justify-between py-2">
-                                    <span className="font-semibold">{d.name}</span>
+                                <div
+                                    key={d.id}
+                                    className="flex items-center justify-between py-2"
+                                >
+                                    <span className="font-semibold">
+                                        {d.name}
+                                    </span>
                                     <button
                                         type="button"
                                         onClick={() =>
-                                            router.delete(`/admin/divisions/${d.id}`, {
-                                                preserveScroll: true,
-                                            })
+                                            router.delete(
+                                                `/admin/divisions/${d.id}`,
+                                                {
+                                                    preserveScroll: true,
+                                                },
+                                            )
                                         }
                                         className="p-1 text-[#7C7269] hover:text-[#EF4444]"
                                         title="Hapus divisi (hanya jika kosong)"
@@ -192,17 +224,21 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    applyFilter({ search: e.currentTarget.value });
+                                if (e.key === 'Enter') {
+                                    applyFilter({
+                                        search: e.currentTarget.value,
+                                    });
                                 }
                             }}
                             className="h-10 flex-1 rounded-xl border border-[#E2DAD0] px-3.5 text-xs"
                         />
                         <select
-                            value={filters.division_id ?? ""}
+                            value={filters.division_id ?? ''}
                             onChange={(e) =>
                                 applyFilter({
-                                    division_id: e.target.value ? Number(e.target.value) : null,
+                                    division_id: e.target.value
+                                        ? Number(e.target.value)
+                                        : null,
                                 })
                             }
                             className="h-10 rounded-xl border border-[#E2DAD0] bg-white px-3 text-xs"
@@ -221,22 +257,36 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                             <table className="w-full border-collapse text-left text-xs">
                                 <thead>
                                     <tr className="border-b border-[#EAE4DC] bg-[#F6F1EB] text-[#5C3806]">
-                                        <th className="p-3.5 font-bold">Anggota</th>
-                                        <th className="p-3.5 font-bold">Divisi</th>
+                                        <th className="p-3.5 font-bold">
+                                            Anggota
+                                        </th>
+                                        <th className="p-3.5 font-bold">
+                                            Divisi
+                                        </th>
                                         <th className="p-3.5 text-center font-bold">
                                             Kehadiran & Skor
                                         </th>
-                                        <th className="p-3.5 text-center font-bold">Status</th>
-                                        <th className="p-3.5 text-right font-bold">Aksi</th>
+                                        <th className="p-3.5 text-center font-bold">
+                                            Status
+                                        </th>
+                                        <th className="p-3.5 text-right font-bold">
+                                            Aksi
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#F2EDE7]">
                                     {members.map((m) => (
-                                        <tr key={m.id} className="hover:bg-[#FAF7F2]">
+                                        <tr
+                                            key={m.id}
+                                            className="hover:bg-[#FAF7F2]"
+                                        >
                                             <td className="p-3.5">
-                                                <p className="font-bold text-[#1E1915]">{m.name}</p>
+                                                <p className="font-bold text-[#1E1915]">
+                                                    {m.name}
+                                                </p>
                                                 <p className="text-[11px] text-[#7C7269]">
-                                                    @{m.username} • {m.role.toUpperCase()}
+                                                    @{m.username} •{' '}
+                                                    {m.role.toUpperCase()}
                                                 </p>
                                             </td>
                                             <td className="p-3.5 text-[#7C7269]">
@@ -245,7 +295,7 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                                             <td className="p-3.5 text-center">
                                                 <span className="font-bold text-[#1E1915]">
                                                     {m.stats.percentage}%
-                                                </span>{" "}
+                                                </span>{' '}
                                                 <span className="ml-1 rounded bg-[#EEF0FF] px-2 py-0.5 font-extrabold text-[#5B4DFF]">
                                                     {m.stats.score.toFixed(1)}
                                                 </span>
@@ -254,11 +304,13 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                                                 <span
                                                     className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
                                                         m.is_active
-                                                            ? "bg-[#E8F8F0] text-[#0FA958]"
-                                                            : "bg-[#FDECEE] text-[#EF4444]"
+                                                            ? 'bg-[#E8F8F0] text-[#0FA958]'
+                                                            : 'bg-[#FDECEE] text-[#EF4444]'
                                                     }`}
                                                 >
-                                                    {m.is_active ? "Aktif" : "Nonaktif"}
+                                                    {m.is_active
+                                                        ? 'Aktif'
+                                                        : 'Nonaktif'}
                                                 </span>
                                             </td>
                                             <td className="space-x-1.5 p-3.5 text-right">
@@ -280,11 +332,17 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                                                         router.post(
                                                             `/admin/members/${m.id}/toggle-active`,
                                                             {},
-                                                            { preserveScroll: true },
+                                                            {
+                                                                preserveScroll: true,
+                                                            },
                                                         )
                                                     }
                                                     className="inline-flex items-center rounded-lg bg-[#F6F1EB] p-1.5 text-[#7C7269] hover:text-[#1E1915]"
-                                                    title={m.is_active ? "Nonaktifkan" : "Aktifkan"}
+                                                    title={
+                                                        m.is_active
+                                                            ? 'Nonaktifkan'
+                                                            : 'Aktifkan'
+                                                    }
                                                 >
                                                     <Power className="h-3.5 w-3.5" />
                                                 </button>
@@ -309,10 +367,13 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
-                            resetForm.post(`/admin/members/${resetTarget.id}/reset-password`, {
-                                preserveScroll: true,
-                                onSuccess: () => setResetTarget(null),
-                            });
+                            resetForm.post(
+                                `/admin/members/${resetTarget.id}/reset-password`,
+                                {
+                                    preserveScroll: true,
+                                    onSuccess: () => setResetTarget(null),
+                                },
+                            );
                         }}
                         className="w-full max-w-sm space-y-4 rounded-3xl bg-white p-6 shadow-xl"
                     >
@@ -325,14 +386,18 @@ export default function AdminMembersIndex({ members, divisions, filters }: Membe
                             minLength={6}
                             placeholder="Kata sandi sementara baru..."
                             value={resetForm.data.password}
-                            onChange={(e) => resetForm.setData("password", e.target.value)}
+                            onChange={(e) =>
+                                resetForm.setData('password', e.target.value)
+                            }
                             className={field}
                         />
                         <input
                             type="text"
                             placeholder="Catatan / alasan reset (opsional)"
                             value={resetForm.data.reason}
-                            onChange={(e) => resetForm.setData("reason", e.target.value)}
+                            onChange={(e) =>
+                                resetForm.setData('reason', e.target.value)
+                            }
                             className={field}
                         />
                         <div className="flex justify-end gap-2">

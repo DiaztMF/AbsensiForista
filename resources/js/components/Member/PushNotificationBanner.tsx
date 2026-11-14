@@ -1,16 +1,24 @@
-import { BellRing, CheckCircle2, Share, Smartphone } from "lucide-react";
-import { useEffect, useState } from "react";
+import { BellRing, CheckCircle2, Share, Smartphone } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface PushNotificationBannerProps {
     vapidPublicKey: string | null;
     onSubscribed?: () => void;
 }
 
-type Mode = "loading" | "ios_install" | "denied" | "ready" | "subscribed" | "unsupported";
+type Mode =
+    | 'loading'
+    | 'ios_install'
+    | 'denied'
+    | 'ready'
+    | 'subscribed'
+    | 'unsupported';
 
 function urlBase64ToUint8Array(base64String: string): Uint8Array<ArrayBuffer> {
-    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-    const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding)
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
     const raw = window.atob(base64);
     const bytes = new Uint8Array(raw.length);
 
@@ -22,29 +30,37 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array<ArrayBuffer> {
 }
 
 const csrfToken = () =>
-    document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? "";
+    document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
+        ?.content ?? '';
 
 export default function PushNotificationBanner({
     vapidPublicKey,
     onSubscribed,
 }: PushNotificationBannerProps) {
-    const [mode, setMode] = useState<Mode>("loading");
+    const [mode, setMode] = useState<Mode>('loading');
     const [busy, setBusy] = useState(false);
 
     useEffect(() => {
-        const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !("MSStream" in window);
+        const isIos =
+            /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+            !('MSStream' in window);
         const isStandalone =
-            window.matchMedia("(display-mode: standalone)").matches || "standalone" in navigator;
+            window.matchMedia('(display-mode: standalone)').matches ||
+            'standalone' in navigator;
 
         // F6 PRD: iPhone tanpa install PWA mendapat instruksi, bukan tombol izin
         if (isIos && !isStandalone) {
-            setMode("ios_install");
+            setMode('ios_install');
 
             return;
         }
 
-        if (!("serviceWorker" in navigator) || !("PushManager" in window) || !vapidPublicKey) {
-            setMode("unsupported");
+        if (
+            !('serviceWorker' in navigator) ||
+            !('PushManager' in window) ||
+            !vapidPublicKey
+        ) {
+            setMode('unsupported');
 
             return;
         }
@@ -53,17 +69,17 @@ export default function PushNotificationBanner({
 
         // SW harus terdaftar sebelum `ready` bisa resolve; tanpa ini banner tertahan di 'loading'
         void navigator.serviceWorker
-            .register("/sw.js")
+            .register('/sw.js')
             .then(() => navigator.serviceWorker.ready)
             .then((registration) => registration.pushManager.getSubscription())
             .then((existing) => {
                 if (active) {
-                    setMode(existing ? "subscribed" : "ready");
+                    setMode(existing ? 'subscribed' : 'ready');
                 }
             })
             .catch(() => {
                 if (active) {
-                    setMode("ready");
+                    setMode('ready');
                 }
             });
 
@@ -81,14 +97,16 @@ export default function PushNotificationBanner({
 
         try {
             const permission = await Notification.requestPermission();
-            if (permission !== "granted") {
-                setMode("denied");
+            if (permission !== 'granted') {
+                setMode('denied');
 
                 return;
             }
 
-            const registration = await navigator.serviceWorker.getRegistration("/sw.js");
-            const readyRegistration = registration ?? (await navigator.serviceWorker.ready);
+            const registration =
+                await navigator.serviceWorker.getRegistration('/sw.js');
+            const readyRegistration =
+                registration ?? (await navigator.serviceWorker.ready);
 
             const subscription = await readyRegistration.pushManager.subscribe({
                 userVisibleOnly: true,
@@ -97,22 +115,22 @@ export default function PushNotificationBanner({
 
             const json = subscription.toJSON();
 
-            const response = await fetch("/push-subscriptions", {
-                method: "POST",
+            const response = await fetch('/push-subscriptions', {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": csrfToken(),
-                    Accept: "application/json",
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken(),
+                    Accept: 'application/json',
                 },
                 body: JSON.stringify({
                     endpoint: json.endpoint,
                     keys: json.keys,
-                    contentEncoding: "aesgcm",
+                    contentEncoding: 'aesgcm',
                 }),
             });
 
             if (response.ok) {
-                setMode("subscribed");
+                setMode('subscribed');
                 onSubscribed?.();
             }
         } catch {
@@ -122,11 +140,11 @@ export default function PushNotificationBanner({
         }
     };
 
-    if (mode === "loading" || mode === "unsupported") {
+    if (mode === 'loading' || mode === 'unsupported') {
         return null;
     }
 
-    if (mode === "ios_install") {
+    if (mode === 'ios_install') {
         return (
             <div className="rounded-2xl border border-[#F39C12]/35 bg-[#FFF8EB] p-3.5 text-xs text-[#1E1915]">
                 <div className="flex items-start gap-2.5">
@@ -136,11 +154,13 @@ export default function PushNotificationBanner({
                             Aktifkan Pengingat di iPhone (PWA)
                         </p>
                         <p className="leading-relaxed text-[#7C7269]">
-                            Untuk menerima notifikasi pengingat rapat di iPhone, ketuk ikon{" "}
+                            Untuk menerima notifikasi pengingat rapat di iPhone,
+                            ketuk ikon{' '}
                             <span className="inline-flex items-center font-semibold text-[#1E1915]">
                                 Bagikan <Share className="mx-0.5 h-3 w-3" />
-                            </span>{" "}
-                            di Safari lalu pilih <strong>Tambah ke Layar Utama</strong>, kemudian
+                            </span>{' '}
+                            di Safari lalu pilih{' '}
+                            <strong>Tambah ke Layar Utama</strong>, kemudian
                             buka aplikasi dari Layar Utama.
                         </p>
                     </div>
@@ -149,16 +169,19 @@ export default function PushNotificationBanner({
         );
     }
 
-    if (mode === "denied") {
+    if (mode === 'denied') {
         return (
             <div className="rounded-2xl border border-[#EF4444]/25 bg-[#FDECEE] px-3.5 py-2.5 text-[11px] leading-relaxed text-[#7C7269]">
-                <strong className="text-[#EF4444]">Izin notifikasi diblokir.</strong> Aktifkan lewat
-                ikon gembok di bilah alamat, lalu muat ulang halaman ini.
+                <strong className="text-[#EF4444]">
+                    Izin notifikasi diblokir.
+                </strong>{' '}
+                Aktifkan lewat ikon gembok di bilah alamat, lalu muat ulang
+                halaman ini.
             </div>
         );
     }
 
-    if (mode === "subscribed") {
+    if (mode === 'subscribed') {
         return (
             <div className="flex items-center gap-2 rounded-2xl border border-[#0FA958]/25 bg-[#E8F8F0] px-3.5 py-2.5 text-xs font-semibold text-[#0FA958]">
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
@@ -176,7 +199,8 @@ export default function PushNotificationBanner({
                         Aktifkan Notifikasi Pengingat
                     </p>
                     <p className="text-[11px] text-[#7C7269]">
-                        Dapatkan pengingat 30 menit sebelum rapat & saat presensi dibuka.
+                        Dapatkan pengingat 30 menit sebelum rapat & saat
+                        presensi dibuka.
                     </p>
                 </div>
             </div>
@@ -186,7 +210,7 @@ export default function PushNotificationBanner({
                 onClick={handleSubscribe}
                 className="shrink-0 rounded-xl bg-[#5B4DFF] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#493be6] disabled:opacity-60"
             >
-                {busy ? "Memuat..." : "Aktifkan"}
+                {busy ? 'Memuat...' : 'Aktifkan'}
             </button>
         </div>
     );

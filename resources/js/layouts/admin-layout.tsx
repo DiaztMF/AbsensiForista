@@ -1,4 +1,4 @@
-import { Head, Link, router, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     CalendarCog,
     ClipboardList,
@@ -9,9 +9,9 @@ import {
     MapPinCheck,
     Settings,
     Users,
-} from "lucide-react";
-import type { PropsWithChildren } from "react";
-import type { Auth } from "@/types/auth";
+} from 'lucide-react';
+import type { PropsWithChildren } from 'react';
+import type { Auth } from '@/types/auth';
 
 type PageProps = {
     auth: Auth;
@@ -24,23 +24,24 @@ interface AdminLayoutProps extends PropsWithChildren {
 }
 
 const navItems = [
-    { label: "Ringkasan", href: "/admin", icon: LayoutDashboard },
-    { label: "Rekap", href: "/admin/recaps", icon: ClipboardList },
-    { label: "Agenda", href: "/admin/agendas", icon: CalendarCog },
-    { label: "Anggota", href: "/admin/members", icon: Users },
-    { label: "Log Audit", href: "/admin/logs", icon: FileClock },
-    { label: "Pengaturan", href: "/admin/settings", icon: Settings },
+    { label: 'Ringkasan', href: '/admin', icon: LayoutDashboard },
+    { label: 'Rekap', href: '/admin/recaps', icon: ClipboardList },
+    { label: 'Agenda', href: '/admin/agendas', icon: CalendarCog },
+    { label: 'Anggota', href: '/admin/members', icon: Users },
+    { label: 'Log Audit', href: '/admin/logs', icon: FileClock },
+    { label: 'Pengaturan', href: '/admin/settings', icon: Settings },
 ];
 
 export default function AdminLayout({ title, children }: AdminLayoutProps) {
     const { url, props, flash } = usePage<PageProps>();
     const user = props.auth.user;
     const successMessage = flash?.success;
-    const successText = typeof successMessage === "string" ? successMessage : null;
+    const successText =
+        typeof successMessage === 'string' ? successMessage : null;
     const errors = props.errors;
 
     const isActive = (href: string) =>
-        href === "/admin" ? url === "/admin" : url.startsWith(href);
+        href === '/admin' ? url === '/admin' : url.startsWith(href);
 
     return (
         <div className="flex min-h-dvh flex-col bg-[#F6F1EB] text-[#1E1915] lg:flex-row">
@@ -52,8 +53,12 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
                         <MapPinCheck className="h-5 w-5" />
                     </div>
                     <div>
-                        <p className="text-base leading-none font-extrabold">FORISTA</p>
-                        <p className="mt-1 text-xs text-white/70">Panel Pengurus</p>
+                        <p className="text-base leading-none font-extrabold">
+                            FORISTA
+                        </p>
+                        <p className="mt-1 text-xs text-white/70">
+                            Panel Pengurus
+                        </p>
                     </div>
                 </div>
 
@@ -67,8 +72,8 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
                                 href={item.href}
                                 className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-bold transition ${
                                     isActive(item.href)
-                                        ? "bg-[#F39C12] text-white shadow-xs"
-                                        : "text-white/80 hover:bg-white/10 hover:text-white"
+                                        ? 'bg-[#F39C12] text-white shadow-xs'
+                                        : 'text-white/80 hover:bg-white/10 hover:text-white'
                                 }`}
                             >
                                 <Icon className="h-4 w-4 shrink-0" />
@@ -89,12 +94,16 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
 
                     <div className="flex items-center justify-between px-1 pt-2">
                         <div className="min-w-0">
-                            <p className="truncate text-xs font-bold">{user.name}</p>
-                            <p className="truncate text-[11px] text-white/70">@{user.username}</p>
+                            <p className="truncate text-xs font-bold">
+                                {user.name}
+                            </p>
+                            <p className="truncate text-[11px] text-white/70">
+                                @{user.username}
+                            </p>
                         </div>
                         <button
                             type="button"
-                            onClick={() => router.post("/logout")}
+                            onClick={() => router.post('/logout')}
                             className="rounded-lg p-2 text-white/75 hover:bg-white/10 hover:text-white"
                             title="Keluar"
                             aria-label="Keluar dari akun"
@@ -123,7 +132,7 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
                     </Link>
                     <button
                         type="button"
-                        onClick={() => router.post("/logout")}
+                        onClick={() => router.post('/logout')}
                         className="rounded-lg bg-white/10 p-1.5 text-white"
                         aria-label="Keluar dari akun"
                     >
@@ -157,7 +166,9 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
                             key={item.href}
                             href={item.href}
                             className={`flex flex-col items-center gap-1 rounded-xl px-2 py-1.5 text-[10px] font-bold ${
-                                isActive(item.href) ? "bg-[#F39C12] text-white" : "text-[#7C7269]"
+                                isActive(item.href)
+                                    ? 'bg-[#F39C12] text-white'
+                                    : 'text-[#7C7269]'
                             }`}
                         >
                             <Icon className="h-4 w-4" />

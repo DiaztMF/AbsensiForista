@@ -1,5 +1,4 @@
 import { usePage } from '@inertiajs/react';
-import type { Auth } from '@/types/auth';
 
 type PageProps = {
     name: string;
@@ -12,7 +11,9 @@ export default function AppLogo({ className }: { className?: string }) {
 
     return (
         <>
-            <div className={`flex items-center justify-center ${className ?? ''}`}>
+            <div
+                className={`flex items-center justify-center ${className ?? ''}`}
+            >
                 <AppLogoIcon className="h-10 w-10" />
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">

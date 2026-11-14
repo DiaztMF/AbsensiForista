@@ -4,8 +4,12 @@ interface DigitalTimeBlocksProps {
     subLabel?: string;
 }
 
-export default function DigitalTimeBlocks({ label, timeString, subLabel }: DigitalTimeBlocksProps) {
-    const [hours = "00", minutes = "00"] = timeString.split(":");
+export default function DigitalTimeBlocks({
+    label,
+    timeString,
+    subLabel,
+}: DigitalTimeBlocksProps) {
+    const [hours = '00', minutes = '00'] = timeString.split(':');
 
     return (
         <div className="text-center">
@@ -23,7 +27,11 @@ export default function DigitalTimeBlocks({ label, timeString, subLabel }: Digit
                     WIB
                 </div>
             </div>
-            {subLabel && <p className="mt-2.5 text-xs font-medium text-[#7C7269]">{subLabel}</p>}
+            {subLabel && (
+                <p className="mt-2.5 text-xs font-medium text-[#7C7269]">
+                    {subLabel}
+                </p>
+            )}
         </div>
     );
 }

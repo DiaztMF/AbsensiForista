@@ -1,6 +1,6 @@
-import type { Auth } from "@/types/auth";
+import type { Auth } from '@/types/auth';
 
-declare module "react" {
+declare module 'react' {
     interface InputHTMLAttributes<T> {
         passwordrules?: string;
     }

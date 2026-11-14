@@ -1,5 +1,5 @@
-import { Link } from "@inertiajs/react";
-import AdminLayout from "@/layouts/admin-layout";
+import { Link } from '@inertiajs/react';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface AuditLogItem {
     id: number;
@@ -31,7 +31,8 @@ export default function AdminLogsIndex({ logs }: LogsProps) {
                     Log Audit Presensi Manual & Reset Sandi
                 </h1>
                 <p className="mt-1 text-xs text-[#7C7269]">
-                    Catatan permanen (tidak dapat diubah) untuk menjaga akuntabilitas pengurus.
+                    Catatan permanen (tidak dapat diubah) untuk menjaga
+                    akuntabilitas pengurus.
                 </p>
             </div>
 
@@ -56,14 +57,15 @@ export default function AdminLogsIndex({ logs }: LogsProps) {
                                     <td className="p-3.5">
                                         <span
                                             className={`rounded-lg px-2.5 py-1 font-bold ${
-                                                log.action === "manual_attendance"
-                                                    ? "bg-[#E8F8F0] text-[#0FA958]"
-                                                    : "bg-[#FFF4E5] text-[#F39C12]"
+                                                log.action ===
+                                                'manual_attendance'
+                                                    ? 'bg-[#E8F8F0] text-[#0FA958]'
+                                                    : 'bg-[#FFF4E5] text-[#F39C12]'
                                             }`}
                                         >
-                                            {log.action === "manual_attendance"
-                                                ? "Presensi Manual"
-                                                : "Reset Password"}
+                                            {log.action === 'manual_attendance'
+                                                ? 'Presensi Manual'
+                                                : 'Reset Password'}
                                         </span>
                                     </td>
                                     <td className="p-3.5 font-bold text-[#1E1915]">
@@ -72,7 +74,9 @@ export default function AdminLogsIndex({ logs }: LogsProps) {
                                     <td className="p-3.5 font-semibold text-[#1E1915]">
                                         {log.target_name}
                                     </td>
-                                    <td className="p-3.5 text-[#7C7269]">{log.reason}</td>
+                                    <td className="p-3.5 text-[#7C7269]">
+                                        {log.reason}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -96,8 +100,8 @@ export default function AdminLogsIndex({ logs }: LogsProps) {
                                 preserveScroll
                                 className={`rounded-lg px-3 py-1.5 text-xs font-bold ${
                                     link.active
-                                        ? "bg-[#F39C12] text-white"
-                                        : "bg-white text-[#7C7269]"
+                                        ? 'bg-[#F39C12] text-white'
+                                        : 'bg-white text-[#7C7269]'
                                 }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />

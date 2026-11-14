@@ -1,6 +1,6 @@
-import { Bell, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import PushNotificationBanner from "./PushNotificationBanner";
+import { Bell, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import PushNotificationBanner from './PushNotificationBanner';
 
 interface NotificationItem {
     id: string;
@@ -18,7 +18,8 @@ interface NotificationDrawerProps {
 }
 
 const csrfToken = () =>
-    document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? "";
+    document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
+        ?.content ?? '';
 
 export default function NotificationDrawer({
     open,
@@ -37,30 +38,37 @@ export default function NotificationDrawer({
         let active = true;
         setLoading(true);
 
-        fetch("/notifications", { headers: { Accept: "application/json" } })
+        void fetch('/notifications', {
+            headers: { Accept: 'application/json' },
+        })
             .then((res) => res.json())
-            .then((data: { notifications?: NotificationItem[]; unread_count?: number }) => {
-                if (!active) {
-                    return;
-                }
+            .then(
+                (data: {
+                    notifications?: NotificationItem[];
+                    unread_count?: number;
+                }) => {
+                    if (!active) {
+                        return;
+                    }
 
-                setItems(data.notifications ?? []);
+                    setItems(data.notifications ?? []);
 
-                // F6 PRD: membuka lonceng langsung menghapus badge belum dibaca
-                if ((data.unread_count ?? 0) > 0) {
-                    void fetch("/notifications/read-all", {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": csrfToken(),
-                            Accept: "application/json",
-                        },
-                    }).then(() => {
-                        if (active) {
-                            onClearedUnread();
-                        }
-                    });
-                }
-            })
+                    // F6 PRD: membuka lonceng langsung menghapus badge belum dibaca
+                    if ((data.unread_count ?? 0) > 0) {
+                        void fetch('/notifications/read-all', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken(),
+                                Accept: 'application/json',
+                            },
+                        }).then(() => {
+                            if (active) {
+                                onClearedUnread();
+                            }
+                        });
+                    }
+                },
+            )
             .finally(() => {
                 if (active) {
                     setLoading(false);
@@ -88,7 +96,9 @@ export default function NotificationDrawer({
                 <div className="flex items-center justify-between border-b border-[#E5DDD3] pb-3">
                     <div className="flex items-center gap-2">
                         <Bell className="h-4 w-4 text-[#5C3806]" />
-                        <h3 className="text-sm font-bold text-[#1E1915]">Notifikasi & Pengingat</h3>
+                        <h3 className="text-sm font-bold text-[#1E1915]">
+                            Notifikasi & Pengingat
+                        </h3>
                     </div>
                     <button
                         type="button"
@@ -122,7 +132,9 @@ export default function NotificationDrawer({
                                 className="rounded-2xl border border-[#EFEAE4] bg-white p-3.5 shadow-2xs"
                             >
                                 <div className="flex items-center justify-between gap-2">
-                                    <p className="text-xs font-bold text-[#1E1915]">{item.title}</p>
+                                    <p className="text-xs font-bold text-[#1E1915]">
+                                        {item.title}
+                                    </p>
                                     <span className="shrink-0 text-[10px] text-[#7C7269]">
                                         {item.created_at}
                                     </span>

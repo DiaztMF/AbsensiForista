@@ -1,16 +1,25 @@
-import { Head, Link, router, usePage } from "@inertiajs/react";
-import { Bell, Calendar, Clock, Hand, LayoutGrid, LogOut, MapPin, ShieldCheck } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import type { Auth } from "@/types/auth";
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import {
+    Bell,
+    Calendar,
+    Clock,
+    Hand,
+    LayoutGrid,
+    LogOut,
+    MapPin,
+    ShieldCheck,
+} from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import type { Auth } from '@/types/auth';
 
 type PageProps = {
     auth: Auth;
 };
-import AgendaLocationMap from "@/components/Member/AgendaLocationMap";
-import CheckInTrigger from "@/components/Member/CheckInTrigger";
-import DigitalTimeBlocks from "@/components/Member/DigitalTimeBlocks";
-import FeedbackModal from "@/components/Member/FeedbackModal";
-import NotificationDrawer from "@/components/Member/NotificationDrawer";
+import AgendaLocationMap from '@/components/Member/AgendaLocationMap';
+import CheckInTrigger from '@/components/Member/CheckInTrigger';
+import DigitalTimeBlocks from '@/components/Member/DigitalTimeBlocks';
+import FeedbackModal from '@/components/Member/FeedbackModal';
+import NotificationDrawer from '@/components/Member/NotificationDrawer';
 
 interface ActiveSession {
     id: number;
@@ -28,7 +37,7 @@ interface ActiveSession {
     has_checked_in: boolean;
     checked_at: string | null;
     distance_m: number | null;
-    source: "auto" | "manual" | null;
+    source: 'auto' | 'manual' | null;
     failed_attempts: number;
     remaining_attempts: number;
     is_locked: boolean;
@@ -50,7 +59,7 @@ interface HistoryItem {
     month_label: string;
     checked_at: string;
     distance_m: number | null;
-    source: "auto" | "manual";
+    source: 'auto' | 'manual';
 }
 
 interface DashboardProps {
@@ -72,8 +81,8 @@ interface MemberFlash {
 
 const clock = (iso: string) =>
     new Date(iso)
-        .toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
-        .replace(".", ":");
+        .toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+        .replace('.', ':');
 
 export default function MemberDashboard({
     serverNow,
@@ -87,20 +96,26 @@ export default function MemberDashboard({
     const user = page.props.auth.user;
     const flash = page.flash as MemberFlash;
 
-    const [bottomTab, setBottomTab] = useState<"dashboard" | "attendance">("dashboard");
-    const [attendanceSubTab, setAttendanceSubTab] = useState<"today" | "list">("today");
-    const [selectedMonth, setSelectedMonth] = useState("all");
+    const [bottomTab, setBottomTab] = useState<'dashboard' | 'attendance'>(
+        'dashboard',
+    );
+    const [attendanceSubTab, setAttendanceSubTab] = useState<'today' | 'list'>(
+        'today',
+    );
+    const [selectedMonth, setSelectedMonth] = useState('all');
     const [isLocating, setIsLocating] = useState(false);
     const [notifOpen, setNotifOpen] = useState(false);
     const [unreadCount, setUnreadCount] = useState(unreadNotificationsCount);
 
-    const [welcomeOpen, setWelcomeOpen] = useState(Boolean(flash.show_welcome_popup));
+    const [welcomeOpen, setWelcomeOpen] = useState(
+        Boolean(flash.show_welcome_popup),
+    );
     const [feedbackModal, setFeedbackModal] = useState<{
         open: boolean;
-        variant: "success" | "error";
+        variant: 'success' | 'error';
         title: string;
         message: string;
-    }>({ open: false, variant: "success", title: "", message: "" });
+    }>({ open: false, variant: 'success', title: '', message: '' });
 
     // Jam mengikuti waktu server; jam HP tidak berpengaruh (F4 PRD)
     const [nowMs, setNowMs] = useState(() => new Date(serverNow).getTime());
@@ -119,41 +134,47 @@ export default function MemberDashboard({
 
         setFeedbackModal({
             open: true,
-            variant: result.success ? "success" : "error",
-            title: result.success ? "Presensi berhasil!" : "Presensi gagal",
+            variant: result.success ? 'success' : 'error',
+            title: result.success ? 'Presensi berhasil!' : 'Presensi gagal',
             message: result.message,
         });
 
         // F5 PRD: perbarui dashboard tanpa reload penuh
         if (result.success) {
-            router.reload({ only: ["activeSession", "stats", "history"] });
+            router.reload({ only: ['activeSession', 'stats', 'history'] });
         }
     }, [flash.checkin_result]);
 
     const windowState = useMemo(() => {
         if (!activeSession) {
-            return { isOpen: false, label: "Tidak ada sesi" };
+            return { isOpen: false, label: 'Tidak ada sesi' };
         }
 
         if (nowMs < new Date(activeSession.window_opens_at).getTime()) {
-            return { isOpen: false, label: `Dibuka ${clock(activeSession.window_opens_at)}` };
+            return {
+                isOpen: false,
+                label: `Dibuka ${clock(activeSession.window_opens_at)}`,
+            };
         }
 
         if (nowMs > new Date(activeSession.window_closes_at).getTime()) {
-            return { isOpen: false, label: "Closed" };
+            return { isOpen: false, label: 'Closed' };
         }
 
-        return { isOpen: true, label: "Window Terbuka" };
+        return { isOpen: true, label: 'Window Terbuka' };
     }, [activeSession, nowMs]);
 
     const availableMonths = useMemo(
-        () => Array.from(new Map(history.map((h) => [h.month_key, h.month_label]))),
+        () =>
+            Array.from(
+                new Map(history.map((h) => [h.month_key, h.month_label])),
+            ),
         [history],
     );
 
     const filteredHistory = useMemo(
         () =>
-            selectedMonth === "all"
+            selectedMonth === 'all'
                 ? history
                 : history.filter((h) => h.month_key === selectedMonth),
         [history, selectedMonth],
@@ -164,12 +185,13 @@ export default function MemberDashboard({
             return;
         }
 
-        if (!("geolocation" in navigator)) {
+        if (!('geolocation' in navigator)) {
             setFeedbackModal({
                 open: true,
-                variant: "error",
-                title: "GPS tidak didukung",
-                message: "Perangkat atau browser Anda tidak mendukung pelacakan lokasi GPS.",
+                variant: 'error',
+                title: 'GPS tidak didukung',
+                message:
+                    'Perangkat atau browser Anda tidak mendukung pelacakan lokasi GPS.',
             });
 
             return;
@@ -195,32 +217,37 @@ export default function MemberDashboard({
                 setIsLocating(false);
                 setFeedbackModal({
                     open: true,
-                    variant: "error",
-                    title: "Akses lokasi bermasalah",
+                    variant: 'error',
+                    title: 'Akses lokasi bermasalah',
                     message:
                         error.code === error.PERMISSION_DENIED
-                            ? "Izin lokasi ditolak. Buka Pengaturan Browser > Izin Situs > Lokasi, lalu izinkan akses GPS untuk melanjutkan presensi."
-                            : "Gagal mendapatkan titik GPS yang akurat. Pastikan GPS aktif dan Anda berada di area terbuka.",
+                            ? 'Izin lokasi ditolak. Buka Pengaturan Browser > Izin Situs > Lokasi, lalu izinkan akses GPS untuk melanjutkan presensi.'
+                            : 'Gagal mendapatkan titik GPS yang akurat. Pastikan GPS aktif dan Anda berada di area terbuka.',
                 });
             },
             { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
         );
     };
 
-    const openAttendance = (subTab: "today" | "list") => {
-        setBottomTab("attendance");
+    const openAttendance = (subTab: 'today' | 'list') => {
+        setBottomTab('attendance');
         setAttendanceSubTab(subTab);
     };
 
-    const absentCount = Math.max(0, stats.total_sessions - stats.attended_count);
-    const windowOpenFormatted = activeSession ? clock(activeSession.window_opens_at) : "00:00";
+    const absentCount = Math.max(
+        0,
+        stats.total_sessions - stats.attended_count,
+    );
+    const windowOpenFormatted = activeSession
+        ? clock(activeSession.window_opens_at)
+        : '00:00';
 
     return (
         <div className="flex min-h-dvh justify-center bg-[#F6F1EB]">
             <Head title="Dashboard Anggota — FORISTA" />
 
             <div className="relative flex min-h-dvh w-full max-w-md flex-col bg-[#F6F1EB] pb-28">
-                {bottomTab === "dashboard" ? (
+                {bottomTab === 'dashboard' ? (
                     <>
                         <header className="rounded-b-[36px] bg-[#5C3806] px-5 pt-8 pb-24 text-white shadow-md">
                             <div className="flex items-center justify-between">
@@ -233,13 +260,14 @@ export default function MemberDashboard({
                                             {user.name}
                                         </h1>
                                         <p className="text-xs text-white/75">
-                                            {user.division?.name ?? "Anggota FORISTA"}
+                                            {user.division?.name ??
+                                                'Anggota FORISTA'}
                                         </p>
                                     </div>
                                 </div>
 
                                 <div className="flex items-center gap-2">
-                                    {user.role === "admin" && (
+                                    {user.role === 'admin' && (
                                         <Link
                                             href="/admin"
                                             className="flex items-center gap-1.5 rounded-xl bg-white/15 px-3 py-2 text-xs font-semibold hover:bg-white/25"
@@ -263,13 +291,18 @@ export default function MemberDashboard({
                             </div>
 
                             <div className="mt-7 flex items-center justify-between">
-                                <h2 className="text-base font-bold">Presensi Hari Ini</h2>
+                                <h2 className="text-base font-bold">
+                                    Presensi Hari Ini
+                                </h2>
                                 <span className="text-xs text-white/80">
-                                    {new Date(nowMs).toLocaleDateString("id-ID", {
-                                        day: "numeric",
-                                        month: "short",
-                                        year: "numeric",
-                                    })}
+                                    {new Date(nowMs).toLocaleDateString(
+                                        'id-ID',
+                                        {
+                                            day: 'numeric',
+                                            month: 'short',
+                                            year: 'numeric',
+                                        },
+                                    )}
                                 </span>
                             </div>
                         </header>
@@ -291,13 +324,15 @@ export default function MemberDashboard({
 
                                         <button
                                             type="button"
-                                            onClick={() => openAttendance("today")}
+                                            onClick={() =>
+                                                openAttendance('today')
+                                            }
                                             className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#F39C12] px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-[#DF8C09]"
                                         >
                                             <Clock className="h-4 w-4" />
                                             {activeSession.has_checked_in
-                                                ? "Lihat Detail Kehadiran"
-                                                : "Buka Layar Check-In"}
+                                                ? 'Lihat Detail Kehadiran'
+                                                : 'Buka Layar Check-In'}
                                         </button>
                                     </>
                                 ) : (
@@ -306,8 +341,8 @@ export default function MemberDashboard({
                                             Belum ada rapat terjadwal
                                         </p>
                                         <p className="mt-1 text-xs text-[#7C7269]">
-                                            Jadwal pertemuan mingguan berikutnya akan tampil
-                                            otomatis di sini.
+                                            Jadwal pertemuan mingguan berikutnya
+                                            akan tampil otomatis di sini.
                                         </p>
                                     </div>
                                 )}
@@ -317,7 +352,7 @@ export default function MemberDashboard({
                         <section className="mt-6 px-5">
                             <div className="mb-3 flex items-center justify-between">
                                 <h3 className="text-sm font-bold text-[#1E1915]">
-                                    Total Kehadiran{" "}
+                                    Total Kehadiran{' '}
                                     <span className="font-normal text-[#7C7269]">
                                         (Periode Ini)
                                     </span>
@@ -364,7 +399,7 @@ export default function MemberDashboard({
                                 </h3>
                                 <button
                                     type="button"
-                                    onClick={() => openAttendance("list")}
+                                    onClick={() => openAttendance('list')}
                                     className="text-xs font-semibold text-[#F39C12]"
                                 >
                                     Semua Riwayat →
@@ -373,9 +408,12 @@ export default function MemberDashboard({
 
                             <div className="space-y-3 rounded-3xl border border-[#EFEAE4] bg-white p-4 shadow-xs">
                                 <div className="flex items-center justify-between text-xs">
-                                    <span className="text-[#7C7269]">Total Pertemuan Diikuti</span>
+                                    <span className="text-[#7C7269]">
+                                        Total Pertemuan Diikuti
+                                    </span>
                                     <span className="font-bold text-[#1E1915]">
-                                        {stats.attended_count} dari {stats.total_sessions} Rapat
+                                        {stats.attended_count} dari{' '}
+                                        {stats.total_sessions} Rapat
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between text-xs">
@@ -406,8 +444,8 @@ export default function MemberDashboard({
                         <div className="mb-5 grid grid-cols-2 gap-1.5 rounded-2xl border border-[#EAE4DC] bg-white p-1.5">
                             {(
                                 [
-                                    ["today", "Presensi Hari Ini"],
-                                    ["list", "Riwayat Presensi"],
+                                    ['today', 'Presensi Hari Ini'],
+                                    ['list', 'Riwayat Presensi'],
                                 ] as const
                             ).map(([key, label]) => (
                                 <button
@@ -416,8 +454,8 @@ export default function MemberDashboard({
                                     onClick={() => setAttendanceSubTab(key)}
                                     className={`rounded-xl py-2.5 text-xs font-bold transition ${
                                         attendanceSubTab === key
-                                            ? "bg-[#F39C12] text-white shadow-xs"
-                                            : "text-[#1E1915] hover:bg-[#F6F1EB]"
+                                            ? 'bg-[#F39C12] text-white shadow-xs'
+                                            : 'text-[#1E1915] hover:bg-[#F6F1EB]'
                                     }`}
                                 >
                                     {label}
@@ -425,17 +463,17 @@ export default function MemberDashboard({
                             ))}
                         </div>
 
-                        {attendanceSubTab === "today" ? (
+                        {attendanceSubTab === 'today' ? (
                             activeSession ? (
                                 <div className="space-y-4">
                                     <p className="text-sm font-bold text-[#1E1915]">
                                         {new Date(
                                             `${activeSession.session_date}T00:00:00`,
-                                        ).toLocaleDateString("id-ID", {
-                                            weekday: "long",
-                                            day: "numeric",
-                                            month: "short",
-                                            year: "numeric",
+                                        ).toLocaleDateString('id-ID', {
+                                            weekday: 'long',
+                                            day: 'numeric',
+                                            month: 'short',
+                                            year: 'numeric',
                                         })}
                                     </p>
 
@@ -448,7 +486,9 @@ export default function MemberDashboard({
 
                                         <p className="flex items-center justify-center gap-1.5 text-xs text-[#7C7269]">
                                             <MapPin className="h-3.5 w-3.5 shrink-0 text-[#5B4DFF]" />
-                                            <span>{activeSession.location_name}</span>
+                                            <span>
+                                                {activeSession.location_name}
+                                            </span>
                                         </p>
 
                                         <AgendaLocationMap
@@ -461,16 +501,21 @@ export default function MemberDashboard({
                                             disabled={!windowState.isOpen}
                                             disabledLabel={windowState.label}
                                             isLocked={activeSession.is_locked}
-                                            hasCheckedIn={activeSession.has_checked_in}
+                                            hasCheckedIn={
+                                                activeSession.has_checked_in
+                                            }
                                             isProcessing={isLocating}
                                             onTriggerCheckIn={handleCheckIn}
                                         />
 
                                         <div className="flex items-center justify-between border-t border-[#F2EDE7] pt-2 text-[11px] text-[#7C7269]">
                                             <span>
-                                                Sisa Kuota Radius:{" "}
+                                                Sisa Kuota Radius:{' '}
                                                 <strong className="text-[#1E1915]">
-                                                    {activeSession.remaining_attempts} / 3
+                                                    {
+                                                        activeSession.remaining_attempts
+                                                    }{' '}
+                                                    / 3
                                                 </strong>
                                             </span>
                                             <span>GPS hanya saat check-in</span>
@@ -483,43 +528,49 @@ export default function MemberDashboard({
                                         Tidak ada sesi aktif
                                     </p>
                                     <p className="mt-1 text-xs text-[#7C7269]">
-                                        Silakan cek kembali saat jadwal pertemuan mingguan
-                                        berlangsung.
+                                        Silakan cek kembali saat jadwal
+                                        pertemuan mingguan berlangsung.
                                     </p>
                                 </div>
                             )
                         ) : (
                             <div className="space-y-4">
                                 <div className="flex items-center gap-2 overflow-x-auto pb-1">
-                                    {[["all", "Semua Bulan"] as const, ...availableMonths].map(
-                                        ([key, label]) => (
-                                            <button
-                                                key={key}
-                                                type="button"
-                                                onClick={() => setSelectedMonth(key)}
-                                                className={`shrink-0 rounded-xl px-3.5 py-1.5 text-xs font-bold transition ${
-                                                    selectedMonth === key
-                                                        ? "border border-[#EAE4DC] bg-white text-[#5B4DFF] shadow-xs"
-                                                        : "text-[#7C7269]"
-                                                }`}
-                                            >
-                                                {label}
-                                            </button>
-                                        ),
-                                    )}
+                                    {[
+                                        ['all', 'Semua Bulan'] as const,
+                                        ...availableMonths,
+                                    ].map(([key, label]) => (
+                                        <button
+                                            key={key}
+                                            type="button"
+                                            onClick={() =>
+                                                setSelectedMonth(key)
+                                            }
+                                            className={`shrink-0 rounded-xl px-3.5 py-1.5 text-xs font-bold transition ${
+                                                selectedMonth === key
+                                                    ? 'border border-[#EAE4DC] bg-white text-[#5B4DFF] shadow-xs'
+                                                    : 'text-[#7C7269]'
+                                            }`}
+                                        >
+                                            {label}
+                                        </button>
+                                    ))}
                                 </div>
 
                                 {filteredHistory.length === 0 ? (
                                     <div className="rounded-3xl border border-[#EFEAE4] bg-white p-8 text-center">
                                         <Calendar className="mx-auto mb-2 h-8 w-8 text-[#7C7269]" />
                                         <p className="text-xs font-semibold text-[#7C7269]">
-                                            Belum ada catatan kehadiran pada periode ini.
+                                            Belum ada catatan kehadiran pada
+                                            periode ini.
                                         </p>
                                     </div>
                                 ) : (
                                     <div className="space-y-3">
                                         {filteredHistory.map((item) => {
-                                            const date = new Date(`${item.session_date}T00:00:00`);
+                                            const date = new Date(
+                                                `${item.session_date}T00:00:00`,
+                                            );
 
                                             return (
                                                 <div
@@ -531,16 +582,22 @@ export default function MemberDashboard({
                                                             {date.getDate()}
                                                         </span>
                                                         <span className="mt-1 text-[11px] font-semibold">
-                                                            {date.toLocaleDateString("id-ID", {
-                                                                weekday: "short",
-                                                            })}
+                                                            {date.toLocaleDateString(
+                                                                'id-ID',
+                                                                {
+                                                                    weekday:
+                                                                        'short',
+                                                                },
+                                                            )}
                                                         </span>
                                                     </div>
 
                                                     <div className="min-w-0 flex-1">
                                                         <div className="flex items-center justify-between gap-2">
                                                             <p className="truncate text-xs font-bold text-[#1E1915]">
-                                                                {item.agenda_title}
+                                                                {
+                                                                    item.agenda_title
+                                                                }
                                                             </p>
                                                             <span className="shrink-0 rounded-md bg-[#E8F8F0] px-2 py-0.5 text-[10px] font-bold text-[#0FA958]">
                                                                 Hadir
@@ -550,20 +607,24 @@ export default function MemberDashboard({
                                                         <div className="mt-1.5 grid grid-cols-2 gap-2 text-[11px]">
                                                             <div>
                                                                 <span className="text-[#7C7269]">
-                                                                    Waktu:{" "}
+                                                                    Waktu:{' '}
                                                                 </span>
                                                                 <strong className="text-[#1E1915]">
-                                                                    {item.checked_at} WIB
+                                                                    {
+                                                                        item.checked_at
+                                                                    }{' '}
+                                                                    WIB
                                                                 </strong>
                                                             </div>
                                                             <div>
                                                                 <span className="text-[#7C7269]">
-                                                                    Jarak:{" "}
+                                                                    Jarak:{' '}
                                                                 </span>
                                                                 <strong className="text-[#1E1915]">
-                                                                    {item.distance_m !== null
+                                                                    {item.distance_m !==
+                                                                    null
                                                                         ? `${item.distance_m}m`
-                                                                        : "Manual"}
+                                                                        : 'Manual'}
                                                                 </strong>
                                                             </div>
                                                         </div>
@@ -586,27 +647,30 @@ export default function MemberDashboard({
                 <nav className="fixed bottom-0 left-1/2 z-30 flex w-full max-w-md -translate-x-1/2 items-center justify-between rounded-t-3xl border-t border-[#ECE6DF] bg-white px-4 py-3 shadow-lg">
                     {(
                         [
-                            ["dashboard", "Dashboard", LayoutGrid],
-                            ["today", "Presensi", Hand],
-                            ["list", "Riwayat", Calendar],
+                            ['dashboard', 'Dashboard', LayoutGrid],
+                            ['today', 'Presensi', Hand],
+                            ['list', 'Riwayat', Calendar],
                         ] as const
                     ).map(([key, label, Icon]) => {
                         const active =
-                            key === "dashboard"
-                                ? bottomTab === "dashboard"
-                                : bottomTab === "attendance" && attendanceSubTab === key;
+                            key === 'dashboard'
+                                ? bottomTab === 'dashboard'
+                                : bottomTab === 'attendance' &&
+                                  attendanceSubTab === key;
 
                         return (
                             <button
                                 key={key}
                                 type="button"
                                 onClick={() =>
-                                    key === "dashboard"
-                                        ? setBottomTab("dashboard")
+                                    key === 'dashboard'
+                                        ? setBottomTab('dashboard')
                                         : openAttendance(key)
                                 }
                                 className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-                                    active ? "bg-[#F39C12] text-white shadow-xs" : "text-[#7C7269]"
+                                    active
+                                        ? 'bg-[#F39C12] text-white shadow-xs'
+                                        : 'text-[#7C7269]'
                                 }`}
                             >
                                 <Icon className="h-4 w-4" />
@@ -617,7 +681,7 @@ export default function MemberDashboard({
 
                     <button
                         type="button"
-                        onClick={() => router.post("/logout")}
+                        onClick={() => router.post('/logout')}
                         className="rounded-xl p-2.5 text-[#7C7269] transition hover:text-[#EF4444]"
                         title="Keluar"
                         aria-label="Keluar dari akun"
@@ -648,7 +712,9 @@ export default function MemberDashboard({
                 variant={feedbackModal.variant}
                 title={feedbackModal.title}
                 message={feedbackModal.message}
-                onClose={() => setFeedbackModal((prev) => ({ ...prev, open: false }))}
+                onClose={() =>
+                    setFeedbackModal((prev) => ({ ...prev, open: false }))
+                }
             />
         </div>
     );

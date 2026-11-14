@@ -1,5 +1,5 @@
-import { CheckCircle2, ChevronRight, Hand, Loader2, Lock } from "lucide-react";
-import { useRef, useState } from "react";
+import { CheckCircle2, ChevronRight, Hand, Loader2, Lock } from 'lucide-react';
+import { useRef, useState } from 'react';
 
 interface CheckInTriggerProps {
     disabled: boolean;
@@ -44,13 +44,15 @@ export default function CheckInTrigger({
                     Percobaan Presensi Terkunci (3/3)
                 </p>
                 <p className="mt-0.5 text-[11px] text-[#7C7269]">
-                    Silakan hubungi Admin FORISTA untuk pencatatan presensi manual.
+                    Silakan hubungi Admin FORISTA untuk pencatatan presensi
+                    manual.
                 </p>
             </div>
         );
     }
 
-    const maxTravel = () => Math.max(1, (trackRef.current?.clientWidth ?? 0) - KNOB - GUTTER * 2);
+    const maxTravel = () =>
+        Math.max(1, (trackRef.current?.clientWidth ?? 0) - KNOB - GUTTER * 2);
 
     const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
         if (disabled || isProcessing) {
@@ -97,21 +99,23 @@ export default function CheckInTrigger({
                 onClick={onTriggerCheckIn}
                 className={`flex h-28 w-28 flex-col items-center justify-center rounded-full shadow-md transition-transform active:scale-95 ${
                     disabled
-                        ? "cursor-not-allowed border-4 border-[#EFECE6] bg-[#E5E0DA] text-[#8C827A]"
-                        : "border-6 border-[#E2F5EA] bg-[#0FA958] text-white hover:bg-[#0c924b]"
+                        ? 'cursor-not-allowed border-4 border-[#EFECE6] bg-[#E5E0DA] text-[#8C827A]'
+                        : 'border-6 border-[#E2F5EA] bg-[#0FA958] text-white hover:bg-[#0c924b]'
                 }`}
                 aria-label="Tekan untuk melakukan check in"
             >
                 {isProcessing ? (
                     <>
                         <Loader2 className="mb-1 h-7 w-7 animate-spin" />
-                        <span className="text-[11px] font-semibold">Melacak...</span>
+                        <span className="text-[11px] font-semibold">
+                            Melacak...
+                        </span>
                     </>
                 ) : (
                     <>
                         <Hand className="mb-1 h-7 w-7" />
                         <span className="text-xs font-bold">
-                            {disabled ? (disabledLabel ?? "Tutup") : "Check In"}
+                            {disabled ? (disabledLabel ?? 'Tutup') : 'Check In'}
                         </span>
                     </>
                 )}
@@ -120,15 +124,17 @@ export default function CheckInTrigger({
             <div
                 ref={trackRef}
                 className={`relative flex h-14 w-full touch-none items-center overflow-hidden rounded-2xl border p-1 select-none ${
-                    disabled ? "border-[#E5E0DA] bg-[#EFECE6]" : "border-[#F39C12]/30 bg-[#FFF8EB]"
+                    disabled
+                        ? 'border-[#E5E0DA] bg-[#EFECE6]'
+                        : 'border-[#F39C12]/30 bg-[#FFF8EB]'
                 }`}
             >
                 <p className="pointer-events-none w-full text-center text-xs font-semibold text-[#7C7269]">
                     {disabled
                         ? disabledLabel
                         : isProcessing
-                          ? "Memverifikasi koordinat GPS..."
-                          : "Geser ke kanan untuk check in (75%)"}
+                          ? 'Memverifikasi koordinat GPS...'
+                          : 'Geser ke kanan untuk check in (75%)'}
                 </p>
 
                 {!disabled && (
@@ -144,14 +150,16 @@ export default function CheckInTrigger({
                         onPointerUp={release}
                         onPointerCancel={release}
                         onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
+                            if (e.key === 'Enter' || e.key === ' ') {
                                 e.preventDefault();
                                 onTriggerCheckIn();
                             }
                         }}
                         style={{
                             transform: `translateX(${dragRatio * maxTravel()}px)`,
-                            transition: isDragging ? "none" : "transform 0.25s ease",
+                            transition: isDragging
+                                ? 'none'
+                                : 'transform 0.25s ease',
                         }}
                         className="absolute left-1.5 flex h-11 w-11 cursor-grab items-center justify-center rounded-xl bg-[#F39C12] text-white shadow-sm active:cursor-grabbing"
                     >

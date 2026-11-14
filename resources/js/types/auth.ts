@@ -3,7 +3,7 @@ export type User = {
     name: string;
     email: string;
     username?: string;
-    role?: "admin" | "member";
+    role?: 'admin' | 'member';
     is_active?: boolean;
     division?: { id: number; name: string } | null;
     avatar?: string;

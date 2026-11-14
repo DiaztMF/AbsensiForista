@@ -1,9 +1,9 @@
-import { AlertTriangle, CheckCircle2, Sparkles } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { AlertTriangle, CheckCircle2, Sparkles } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 interface FeedbackModalProps {
     open: boolean;
-    variant: "welcome" | "success" | "error";
+    variant: 'welcome' | 'success' | 'error';
     title: string;
     message: string;
     autoCloseMs?: number;
@@ -47,18 +47,24 @@ export default function FeedbackModal({
             >
                 <div
                     className={`mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full ${
-                        variant === "error"
-                            ? "bg-[#FDECEE] text-[#EF4444]"
-                            : "bg-[#5B4DFF] text-white shadow-lg shadow-[#5B4DFF]/25"
+                        variant === 'error'
+                            ? 'bg-[#FDECEE] text-[#EF4444]'
+                            : 'bg-[#5B4DFF] text-white shadow-lg shadow-[#5B4DFF]/25'
                     }`}
                 >
-                    {variant === "welcome" && <Sparkles className="h-9 w-9" />}
-                    {variant === "success" && <CheckCircle2 className="h-9 w-9" />}
-                    {variant === "error" && <AlertTriangle className="h-9 w-9" />}
+                    {variant === 'welcome' && <Sparkles className="h-9 w-9" />}
+                    {variant === 'success' && (
+                        <CheckCircle2 className="h-9 w-9" />
+                    )}
+                    {variant === 'error' && (
+                        <AlertTriangle className="h-9 w-9" />
+                    )}
                 </div>
 
                 <h3 className="text-lg font-bold text-[#1E1915]">{title}</h3>
-                <p className="mt-2 text-xs leading-relaxed text-[#7C7269]">{message}</p>
+                <p className="mt-2 text-xs leading-relaxed text-[#7C7269]">
+                    {message}
+                </p>
 
                 <button
                     type="button"

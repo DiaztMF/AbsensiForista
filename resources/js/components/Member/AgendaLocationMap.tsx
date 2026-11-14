@@ -1,8 +1,8 @@
-import L from "leaflet";
-import { Circle, MapContainer, Marker, TileLayer } from "react-leaflet";
+import L from 'leaflet';
+import { Circle, MapContainer, Marker, TileLayer } from 'react-leaflet';
 
 const agendaPinIcon = L.divIcon({
-    className: "custom-agenda-pin",
+    className: 'custom-agenda-pin',
     html: `
         <div style="width:36px;height:36px;border-radius:9999px;background:rgba(91,77,255,.18);border:2px solid #5B4DFF;display:flex;align-items:center;justify-content:center">
             <div style="width:12px;height:12px;border-radius:9999px;background:#5B4DFF"></div>
@@ -41,9 +41,9 @@ export default function AgendaLocationMap({
                     center={[latitude, longitude]}
                     radius={radiusM}
                     pathOptions={{
-                        color: "#5B4DFF",
+                        color: '#5B4DFF',
                         weight: 2,
-                        fillColor: "#5B4DFF",
+                        fillColor: '#5B4DFF',
                         fillOpacity: 0.16,
                     }}
                 />

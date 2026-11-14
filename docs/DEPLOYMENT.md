@@ -6,10 +6,10 @@ Aplikasi berjalan sebagai tiga container PHP yang berbagi satu image:
 
 | Service     | Peran                                                         |
 | ----------- | ------------------------------------------------------------- |
-| `web`       | nginx + php-fpm, migrasi saat start, health check `/up`        |
-| `worker`    | `queue:work` untuk notifikasi pengingat (ShouldQueue)          |
-| `scheduler` | `schedule:work` untuk `forista:dispatch-reminders` tiap menit  |
-| `db`        | PostgreSQL 17 (produksi; SQLite hanya untuk lokal)             |
+| `web`       | nginx + php-fpm, migrasi saat start, health check `/up`       |
+| `worker`    | `queue:work` untuk notifikasi pengingat (ShouldQueue)         |
+| `scheduler` | `schedule:work` untuk `forista:dispatch-reminders` tiap menit |
+| `db`        | PostgreSQL 17 (produksi; SQLite hanya untuk lokal)            |
 
 ## Isolasi dari domain utama
 
@@ -17,7 +17,7 @@ Cookie sesi dipin ke host subdomain lewat `SESSION_DOMAIN=forista.klikhadir.my.i
 
 ## Wajib diisi sebelum deploy
 
-Coolify → *Environment Variables*:
+Coolify → _Environment Variables_:
 
 ```
 APP_KEY=base64:...            # php artisan key:generate --show
@@ -49,8 +49,8 @@ Email tidak dipakai: pendaftaran dan reset mandiri dinonaktifkan. Reset sandi di
 
 Compose tidak memasang limit; set di panel Coolify:
 
-| Service     | RAM | CPU   |
-| ----------- | --- | ----- |
+| Service     | RAM  | CPU  |
+| ----------- | ---- | ---- |
 | `web`       | 512M | 0.5  |
 | `worker`    | 256M | 0.25 |
 | `scheduler` | 128M | 0.1  |

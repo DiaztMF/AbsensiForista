@@ -1,5 +1,5 @@
-import { useForm } from "@inertiajs/react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useForm } from '@inertiajs/react';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface Settings {
     default_radius_m: number;
@@ -10,7 +10,11 @@ interface Settings {
     remind_before_close_minutes: number;
 }
 
-export default function AdminSettingsEdit({ settings }: { settings: Settings }) {
+export default function AdminSettingsEdit({
+    settings,
+}: {
+    settings: Settings;
+}) {
     const form = useForm({
         default_radius_m: settings.default_radius_m,
         default_window_minutes: settings.default_window_minutes,
@@ -20,20 +24,23 @@ export default function AdminSettingsEdit({ settings }: { settings: Settings }) 
         remind_before_close_minutes: settings.remind_before_close_minutes,
     });
 
-    const field = "h-10 w-full rounded-xl border border-[#E2DAD0] px-3 text-xs";
+    const field = 'h-10 w-full rounded-xl border border-[#E2DAD0] px-3 text-xs';
 
     return (
         <AdminLayout title="Pengaturan">
             <div className="max-w-xl">
-                <h1 className="text-xl font-extrabold text-[#1E1915]">Pengaturan Sistem</h1>
+                <h1 className="text-xl font-extrabold text-[#1E1915]">
+                    Pengaturan Sistem
+                </h1>
                 <p className="mt-1 mb-6 text-xs text-[#7C7269]">
-                    Nilai default ini berlaku untuk agenda dan sesi pertemuan mendatang.
+                    Nilai default ini berlaku untuk agenda dan sesi pertemuan
+                    mendatang.
                 </p>
 
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        form.put("/admin/settings", { preserveScroll: true });
+                        form.put('/admin/settings', { preserveScroll: true });
                     }}
                     className="space-y-4 rounded-3xl border border-[#EFEAE4] bg-white p-6 shadow-2xs"
                 >
@@ -48,7 +55,10 @@ export default function AdminSettingsEdit({ settings }: { settings: Settings }) 
                                 max={100}
                                 value={form.data.default_radius_m}
                                 onChange={(e) =>
-                                    form.setData("default_radius_m", Number(e.target.value))
+                                    form.setData(
+                                        'default_radius_m',
+                                        Number(e.target.value),
+                                    )
                                 }
                                 className={field}
                             />
@@ -63,7 +73,10 @@ export default function AdminSettingsEdit({ settings }: { settings: Settings }) 
                                 max={120}
                                 value={form.data.default_window_minutes}
                                 onChange={(e) =>
-                                    form.setData("default_window_minutes", Number(e.target.value))
+                                    form.setData(
+                                        'default_window_minutes',
+                                        Number(e.target.value),
+                                    )
                                 }
                                 className={field}
                             />
@@ -78,7 +91,10 @@ export default function AdminSettingsEdit({ settings }: { settings: Settings }) 
                                 max={100}
                                 value={form.data.gps_accuracy_ceiling_m}
                                 onChange={(e) =>
-                                    form.setData("gps_accuracy_ceiling_m", Number(e.target.value))
+                                    form.setData(
+                                        'gps_accuracy_ceiling_m',
+                                        Number(e.target.value),
+                                    )
                                 }
                                 className={field}
                             />
@@ -97,7 +113,7 @@ export default function AdminSettingsEdit({ settings }: { settings: Settings }) 
                                 value={form.data.remind_before_start_minutes}
                                 onChange={(e) =>
                                     form.setData(
-                                        "remind_before_start_minutes",
+                                        'remind_before_start_minutes',
                                         Number(e.target.value),
                                     )
                                 }
@@ -115,7 +131,7 @@ export default function AdminSettingsEdit({ settings }: { settings: Settings }) 
                                 value={form.data.remind_before_close_minutes}
                                 onChange={(e) =>
                                     form.setData(
-                                        "remind_before_close_minutes",
+                                        'remind_before_close_minutes',
                                         Number(e.target.value),
                                     )
                                 }
@@ -129,11 +145,17 @@ export default function AdminSettingsEdit({ settings }: { settings: Settings }) 
                             type="checkbox"
                             checked={form.data.remind_on_window_open}
                             onChange={(e) =>
-                                form.setData("remind_on_window_open", e.target.checked)
+                                form.setData(
+                                    'remind_on_window_open',
+                                    e.target.checked,
+                                )
                             }
                             className="h-4 w-4 rounded text-[#F39C12]"
                         />
-                        <span>Kirim notifikasi otomatis tepat saat window presensi dibuka</span>
+                        <span>
+                            Kirim notifikasi otomatis tepat saat window presensi
+                            dibuka
+                        </span>
                     </label>
 
                     <button

@@ -1,7 +1,7 @@
-import { Link } from "@inertiajs/react";
-import { Calendar, Clock, MapPin, Users } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import AdminLayout from "@/layouts/admin-layout";
+import { Link } from '@inertiajs/react';
+import { Calendar, Clock, MapPin, Users } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface FocusSession {
     id: number;
@@ -24,9 +24,9 @@ interface OverviewProps {
 }
 
 const clock = (iso: string) =>
-    new Date(iso).toLocaleTimeString("id-ID", {
-        hour: "2-digit",
-        minute: "2-digit",
+    new Date(iso).toLocaleTimeString('id-ID', {
+        hour: '2-digit',
+        minute: '2-digit',
     });
 
 export default function AdminOverview({
@@ -53,42 +53,46 @@ export default function AdminOverview({
 
         const formatDiff = (ms: number) => {
             const total = Math.max(0, Math.floor(ms / 1000));
-            const h = String(Math.floor(total / 3600)).padStart(2, "0");
-            const m = String(Math.floor((total % 3600) / 60)).padStart(2, "0");
-            const s = String(total % 60).padStart(2, "0");
+            const h = String(Math.floor(total / 3600)).padStart(2, '0');
+            const m = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
+            const s = String(total % 60).padStart(2, '0');
 
             return `${h}:${m}:${s}`;
         };
 
         if (nowMs < opensMs) {
             return {
-                badge: "Menunggu Rapat Selesai",
-                label: "Window Presensi Dibuka Dalam",
+                badge: 'Menunggu Rapat Selesai',
+                label: 'Window Presensi Dibuka Dalam',
                 timer: formatDiff(opensMs - nowMs),
-                color: "bg-[#FFF4E5] text-[#F39C12]",
+                color: 'bg-[#FFF4E5] text-[#F39C12]',
             };
         }
 
         if (nowMs <= closesMs) {
             return {
-                badge: "Window Presensi Aktif",
-                label: "Sisa Waktu Check-In",
+                badge: 'Window Presensi Aktif',
+                label: 'Sisa Waktu Check-In',
                 timer: formatDiff(closesMs - nowMs),
-                color: "bg-[#E8F8F0] text-[#0FA958]",
+                color: 'bg-[#E8F8F0] text-[#0FA958]',
             };
         }
 
         return {
-            badge: "Sesi Selesai",
-            label: "Window Presensi Telah Ditutup",
-            timer: "00:00:00",
-            color: "bg-[#F4F3F8] text-[#7C7269]",
+            badge: 'Sesi Selesai',
+            label: 'Window Presensi Telah Ditutup',
+            timer: '00:00:00',
+            color: 'bg-[#F4F3F8] text-[#7C7269]',
         };
     }, [focusSession, nowMs]);
 
     const presentPercentage = focusSession
         ? focusSession.active_members_count > 0
-            ? Math.round((focusSession.present_count / focusSession.active_members_count) * 100)
+            ? Math.round(
+                  (focusSession.present_count /
+                      focusSession.active_members_count) *
+                      100,
+              )
             : 0
         : 0;
 
@@ -99,7 +103,8 @@ export default function AdminOverview({
                     Ringkasan Presensi Hari Ini
                 </h1>
                 <p className="mt-1 text-xs text-[#7C7269]">
-                    Pantau kehadiran anggota secara langsung dan kelola sesi pertemuan mingguan.
+                    Pantau kehadiran anggota secara langsung dan kelola sesi
+                    pertemuan mingguan.
                 </p>
             </div>
 
@@ -140,7 +145,9 @@ export default function AdminOverview({
                         <div className="flex flex-wrap items-center justify-between gap-3">
                             <span className="flex items-center gap-1 text-xs text-[#7C7269]">
                                 <Clock className="h-3.5 w-3.5" />
-                                Window: {clock(focusSession.window_opens_at)} -{" "}
+                                Window: {clock(
+                                    focusSession.window_opens_at,
+                                )} -{' '}
                                 {clock(focusSession.window_closes_at)} WIB
                             </span>
 
@@ -158,13 +165,16 @@ export default function AdminOverview({
                             <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#E8F8F0] text-[#0FA958]">
                                 <Users className="h-5 w-5" />
                             </div>
-                            <p className="text-xs font-bold text-[#7C7269]">Kehadiran Saat Ini</p>
+                            <p className="text-xs font-bold text-[#7C7269]">
+                                Kehadiran Saat Ini
+                            </p>
                             <div className="mt-2 flex items-baseline gap-2">
                                 <span className="text-4xl font-extrabold text-[#0FA958]">
                                     {focusSession.present_count}
                                 </span>
                                 <span className="text-sm font-bold text-[#7C7269]">
-                                    / {focusSession.active_members_count} Anggota Aktif
+                                    / {focusSession.active_members_count}{' '}
+                                    Anggota Aktif
                                 </span>
                             </div>
                         </div>
@@ -177,13 +187,13 @@ export default function AdminOverview({
                                 />
                             </div>
                             <p className="text-xs text-[#7C7269]">
-                                Belum hadir:{" "}
+                                Belum hadir:{' '}
                                 <strong className="text-[#EF4444]">
                                     {Math.max(
                                         0,
                                         focusSession.active_members_count -
                                             focusSession.present_count,
-                                    )}{" "}
+                                    )}{' '}
                                     anggota
                                 </strong>
                             </p>
@@ -196,7 +206,8 @@ export default function AdminOverview({
                         Belum ada sesi pertemuan terdekat
                     </p>
                     <p className="mt-1 mb-4 text-xs text-[#7C7269]">
-                        Total anggota aktif terdaftar saat ini: {activeMembersCount} orang.
+                        Total anggota aktif terdaftar saat ini:{' '}
+                        {activeMembersCount} orang.
                     </p>
                     <Link
                         href="/admin/agendas"

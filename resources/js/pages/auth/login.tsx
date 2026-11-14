@@ -1,24 +1,24 @@
-import AppLogo from "@/components/app-logo";
-import { Head, useForm } from "@inertiajs/react";
-import { Eye, EyeOff, Loader2, Lock, MapPinCheck, User } from "lucide-react";
-import { useState } from "react";
+import AppLogo from '@/components/app-logo';
+import { Head, useForm } from '@inertiajs/react';
+import { Eye, EyeOff, Loader2, Lock, User } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        username: "",
-        password: "",
+        username: '',
+        password: '',
         remember: true,
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post("/login", { onFinish: () => reset("password") });
+        post('/login', { onFinish: () => reset('password') });
     };
 
     const fieldClass =
-        "h-11 w-full rounded-xl border border-[#E2DAD0] bg-white pr-4 pl-10 text-sm text-[#1E1915] transition placeholder:text-[#A39A91] focus:border-[#F39C12] focus:ring-2 focus:ring-[#F39C12]/20 focus:outline-none";
+        'h-11 w-full rounded-xl border border-[#E2DAD0] bg-white pr-4 pl-10 text-sm text-[#1E1915] transition placeholder:text-[#A39A91] focus:border-[#F39C12] focus:ring-2 focus:ring-[#F39C12]/20 focus:outline-none';
 
     return (
         <div className="flex min-h-dvh w-full flex-col bg-[#F6F1EB] text-[#1E1915] lg:flex-row">
@@ -34,8 +34,8 @@ export default function Login() {
 
                 <div className="relative z-10 mt-auto max-w-xl p-12 text-white">
                     <blockquote className="text-xl leading-relaxed font-semibold tracking-tight">
-                        “Kepemimpinan lahir dari kehadiran, konsistensi, dan tanggung jawab nyata di
-                        setiap pertemuan.”
+                        “Kepemimpinan lahir dari kehadiran, konsistensi, dan
+                        tanggung jawab nyata di setiap pertemuan.”
                     </blockquote>
                     <p className="mt-3 text-sm font-medium text-white/80">
                         Forum OSIS Surakarta (FORISTA)
@@ -49,8 +49,12 @@ export default function Login() {
                         <AppLogo />
                     </div>
                     <div>
-                        <p className="text-base leading-none font-bold tracking-tight">FORISTA</p>
-                        <p className="mt-1 text-xs text-white/75">Forum OSIS Surakarta</p>
+                        <p className="text-base leading-none font-bold tracking-tight">
+                            FORISTA
+                        </p>
+                        <p className="mt-1 text-xs text-white/75">
+                            Forum OSIS Surakarta
+                        </p>
                     </div>
                 </div>
             </div>
@@ -62,10 +66,12 @@ export default function Login() {
                             <AppLogo />
                         </div>
                         <span className="text-base font-extrabold tracking-tight text-[#1E1915]">
-                            FORISTA <span className="font-medium text-[#7C7269]">Attendance</span>
+                            FORISTA{' '}
+                            <span className="font-medium text-[#7C7269]">
+                                Attendance
+                            </span>
                         </span>
                     </div>
-
                 </div>
 
                 <div className="mx-auto my-auto w-full max-w-sm py-6">
@@ -74,7 +80,8 @@ export default function Login() {
                             Masuk ke Akun
                         </h1>
                         <p className="mt-1.5 text-sm text-[#7C7269]">
-                            Masukkan username dan kata sandi untuk mengakses presensi rapat.
+                            Masukkan username dan kata sandi untuk mengakses
+                            presensi rapat.
                         </p>
                     </div>
 
@@ -96,7 +103,9 @@ export default function Login() {
                                     autoCapitalize="none"
                                     autoFocus
                                     value={data.username}
-                                    onChange={(e) => setData("username", e.target.value)}
+                                    onChange={(e) =>
+                                        setData('username', e.target.value)
+                                    }
                                     placeholder="Masukkan username Anda"
                                     className={fieldClass}
                                 />
@@ -120,19 +129,25 @@ export default function Login() {
                                 <input
                                     id="password"
                                     name="password"
-                                    type={showPassword ? "text" : "password"}
+                                    type={showPassword ? 'text' : 'password'}
                                     autoComplete="current-password"
                                     value={data.password}
-                                    onChange={(e) => setData("password", e.target.value)}
+                                    onChange={(e) =>
+                                        setData('password', e.target.value)
+                                    }
                                     placeholder="••••••••"
                                     className={`${fieldClass} pr-11`}
                                 />
                                 <button
                                     type="button"
-                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    onClick={() =>
+                                        setShowPassword((prev) => !prev)
+                                    }
                                     className="absolute top-1/2 right-3 -translate-y-1/2 p-1 text-[#7C7269] hover:text-[#1E1915]"
                                     aria-label={
-                                        showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"
+                                        showPassword
+                                            ? 'Sembunyikan kata sandi'
+                                            : 'Lihat kata sandi'
                                     }
                                 >
                                     {showPassword ? (
@@ -154,7 +169,9 @@ export default function Login() {
                                 <input
                                     type="checkbox"
                                     checked={data.remember}
-                                    onChange={(e) => setData("remember", e.target.checked)}
+                                    onChange={(e) =>
+                                        setData('remember', e.target.checked)
+                                    }
                                     className="h-4 w-4 rounded border-[#D6CEC4] text-[#F39C12] focus:ring-[#F39C12]"
                                 />
                                 <span className="text-xs font-medium text-[#7C7269]">
@@ -181,19 +198,19 @@ export default function Login() {
 
                     <div className="mt-6 rounded-2xl border border-[#E6DFD6] bg-white/80 p-3.5 text-center">
                         <p className="text-xs leading-relaxed text-[#7C7269]">
-                            Lupa kata sandi atau belum memiliki akun?{" "}
-                            <br></br>
+                            Lupa kata sandi atau belum memiliki akun? <br></br>
                             <span className="font-semibold text-[#5C3806]">
                                 Hubungi Admin
-                            </span>{" "}
+                            </span>{' '}
                             untuk pembuatan akun atau reset sandi.
                         </p>
                     </div>
                 </div>
 
                 <footer className="mx-auto max-w-sm text-center text-[11px] leading-relaxed text-[#7C7269]">
-                    Akses lokasi GPS hanya digunakan sesaat ketika Anda melakukan presensi rapat dan
-                    koordinat mentah tidak disimpan.
+                    Akses lokasi GPS hanya digunakan sesaat ketika Anda
+                    melakukan presensi rapat dan koordinat mentah tidak
+                    disimpan.
                 </footer>
             </div>
         </div>
