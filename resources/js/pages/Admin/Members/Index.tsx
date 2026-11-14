@@ -68,7 +68,7 @@ export default function AdminMembersIndex({
         }
         debounceTimer.current = window.setTimeout(() => {
             applyFilter({ search });
-        }, 300);
+        }, 500);
         return () => {
             if (debounceTimer.current) {
                 window.clearTimeout(debounceTimer.current);
@@ -354,7 +354,7 @@ export default function AdminMembersIndex({
                                                             },
                                                         )
                                                     }
-                                                    className="flex items-center gap-1.5 rounded-lg bg-red-500 px-2.5 py-1.5 text-xs font-bold text-white hover:bg-red-600"
+                                                    className="flex items-center gap-1.5 rounded-lg bg-[#F6F1EB] px-2.5 py-1.5 text-xs font-bold text-[#1E1915] hover:bg-[#E2DAD0]"
                                                     title={
                                                         m.is_active
                                                             ? 'Nonaktifkan'
