@@ -240,7 +240,7 @@ export default function AdminMembersIndex({
                 <div className="mt-6 flex flex-col gap-3 rounded-3xl border border-[#EFEAE4] bg-white p-4 sm:flex-row">
                     <input
                         type="search"
-                        placeholder="Cari nama atau username lalu Enter..."
+                        placeholder="Cari nama atau username"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         onKeyDown={(e) => {
