@@ -255,7 +255,7 @@ export default function AdminAgendasIndex({ agendas, defaults }: AgendasProps) {
                                 type="button"
                                 onClick={handleSearchAddress}
                                 disabled={searching}
-                                className="flex h-10 items-center gap-1 rounded-xl bg-[#5C3806] px-3.5 text-xs font-bold text-white disabled:opacity-60"
+                                className="flex h-10 items-center gap-1 rounded-xl bg-[#F39C12] px-3.5 text-xs font-bold text-white disabled:opacity-60"
                             >
                                 <Search className="h-3.5 w-3.5" />
                                 <span>{searching ? '...' : 'Cari'}</span>
@@ -520,7 +520,7 @@ export default function AdminAgendasIndex({ agendas, defaults }: AgendasProps) {
                                                                     ),
                                                             });
                                                         }}
-                                                        className="flex items-center gap-1 rounded-lg border border-[#E2DAD0] bg-white px-2.5 py-1.5 font-bold text-[#5C3806]"
+                                                    className="flex items-center gap-1 rounded-lg bg-[#F6F1EB] px-2.5 py-1.5 font-bold text-[#1E1915] hover:bg-[#E2DAD0]"
                                                     >
                                                         <CalendarClock className="h-3.5 w-3.5" />
                                                         <span>

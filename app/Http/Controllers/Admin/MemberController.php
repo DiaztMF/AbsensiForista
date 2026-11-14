@@ -32,8 +32,8 @@ class MemberController extends Controller
             ->when($divisionId, fn ($q) => $q->where('division_id', $divisionId))
             ->orderByDesc('is_active')
             ->orderBy('name')
-            ->get()
-            ->map(fn (User $member) => [
+            ->paginate(10)
+            ->through(fn (User $member) => [
                 'id' => $member->id,
                 'name' => $member->name,
                 'username' => $member->username,

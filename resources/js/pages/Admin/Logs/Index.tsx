@@ -40,7 +40,7 @@ export default function AdminLogsIndex({ logs }: LogsProps) {
                 <div className="overflow-x-auto">
                     <table className="w-full border-collapse text-left text-xs">
                         <thead>
-                            <tr className="border-b border-[#EAE4DC] bg-[#F6F1EB] text-[#5C3806]">
+                            <tr className="border-b border-[#EAE4DC] bg-[#F39C12] text-white">
                                 <th className="p-3.5 font-bold">Waktu</th>
                                 <th className="p-3.5 font-bold">Tindakan</th>
                                 <th className="p-3.5 font-bold">Admin</th>

@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import type { PropsWithChildren } from 'react';
 import type { Auth } from '@/types/auth';
+import AppLogoIcon from '@/components/app-logo-icon';
 
 type PageProps = {
     auth: Auth;
@@ -49,8 +50,8 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
 
             <aside className="hidden shrink-0 bg-[#5C3806] p-5 text-white lg:flex lg:w-64 lg:flex-col">
                 <div className="flex items-center gap-3 border-b border-white/15 pb-6">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F39C12] text-white shadow-xs">
-                        <MapPinCheck className="h-5 w-5" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl text-white shadow-xs">
+                        <AppLogoIcon className="h-8 w-8" />
                     </div>
                     <div>
                         <p className="text-base leading-none font-extrabold">

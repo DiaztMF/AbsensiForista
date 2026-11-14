@@ -308,7 +308,7 @@ export default function AdminRecapsIndex({
                 <div className="overflow-x-auto">
                     <table className="w-full border-collapse text-left text-xs">
                         <thead>
-                            <tr className="border-b border-[#EAE4DC] bg-[#F6F1EB] text-[#5C3806]">
+                            <tr className="border-b border-[#EAE4DC] bg-[#F39C12] text-white">
                                 <th className="p-3.5 font-bold">
                                     Nama Anggota
                                 </th>
@@ -453,7 +453,7 @@ export default function AdminRecapsIndex({
                                                       onClick={() =>
                                                           openManualModal(row)
                                                       }
-                                                      className="inline-flex items-center gap-1 rounded-xl bg-[#FFF4E5] px-3 py-1.5 font-bold text-[#5C3806] transition hover:bg-[#F39C12] hover:text-white"
+                                                      className="inline-flex items-center gap-1 rounded-xl bg-[#F39C12] px-3 py-1.5 font-bold text-white hover:bg-[#E68A18]"
                                                   >
                                                       <PlusCircle className="h-3.5 w-3.5" />
                                                       <span>
